@@ -1,0 +1,4596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Forge Studio</title>
+<style>
+/* =========================================================================
+   THEME VARIABLES
+   ========================================================================= */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --transition-fast: 0.14s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Theme: Obsidian (Default) --- */
+[data-theme="obsidian"] {
+  --bg: #000000;
+  --bg-elevated: #050505;
+  --bg-panel: #0a0a0a;
+  --bg-panel-hover: #111111;
+  --bg-input: #000000;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --text: #e8ecef;
+  --text-secondary: #a0a8b4;
+  --text-dim: #5c6470;
+  --text-faint: #2e343c;
+  --accent: #5b8cff;
+  --accent-hover: #6f9bff;
+  --accent-glow: rgba(91, 140, 255, 0.25);
+  --success: #3ecf8e;
+  --warning: #e2b04a;
+  --error: #ff5f6d;
+  --inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 0 -1px 0 rgba(255, 255, 255, 0.01);
+  --inner-shadow-strong: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+  --code-keyword: #c792ea;
+  --code-string: #a8e08a;
+  --code-number: #f2b76a;
+  --code-comment: #4a5468;
+  --code-tag: #7fd3f7;
+  --code-attr: #e8c07d;
+  --code-punct: #8fa2bd;
+  --code-func: #5b8cff;
+}
+
+/* --- Theme: Ember (Cozy) --- */
+[data-theme="ember"] {
+  --bg: #1a1614;
+  --bg-elevated: #211c19;
+  --bg-panel: #26201c;
+  --bg-panel-hover: #2e2722;
+  --bg-input: #1a1614;
+  --border: rgba(255, 220, 180, 0.07);
+  --border-strong: rgba(255, 220, 180, 0.14);
+  --text: #e8ddd0;
+  --text-secondary: #b8a99a;
+  --text-dim: #7a6a5e;
+  --text-faint: #3d332c;
+  --accent: #e8a87c;
+  --accent-hover: #f0b88c;
+  --accent-glow: rgba(232, 168, 124, 0.2);
+  --success: #7fb069;
+  --warning: #e8b85c;
+  --error: #e06060;
+  --inner-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.05), inset 0 -1px 0 rgba(255, 220, 180, 0.01);
+  --inner-shadow-strong: inset 0 1px 0 rgba(255, 220, 180, 0.08), inset 0 -1px 0 rgba(255, 220, 180, 0.02);
+  --code-keyword: #d4a0c0;
+  --code-string: #b8d48a;
+  --code-number: #e8b85c;
+  --code-comment: #6a5a4e;
+  --code-tag: #8ab8d4;
+  --code-attr: #e0c080;
+  --code-punct: #a09080;
+  --code-func: #e8a87c;
+}
+
+/* --- Theme: Forest (Calm) --- */
+[data-theme="forest"] {
+  --bg: #141a14;
+  --bg-elevated: #1a211a;
+  --bg-panel: #1e261e;
+  --bg-panel-hover: #262e26;
+  --bg-input: #141a14;
+  --border: rgba(180, 220, 180, 0.07);
+  --border-strong: rgba(180, 220, 180, 0.13);
+  --text: #d8e0d4;
+  --text-secondary: #a0b09c;
+  --text-dim: #6a7a68;
+  --text-faint: #334033;
+  --accent: #8a9a5b;
+  --accent-hover: #9aaa6b;
+  --accent-glow: rgba(138, 154, 91, 0.22);
+  --success: #7fb069;
+  --warning: #d4b85c;
+  --error: #d46060;
+  --inner-shadow: inset 0 1px 0 rgba(180, 220, 180, 0.05), inset 0 -1px 0 rgba(180, 220, 180, 0.01);
+  --inner-shadow-strong: inset 0 1px 0 rgba(180, 220, 180, 0.08), inset 0 -1px 0 rgba(180, 220, 180, 0.02);
+  --code-keyword: #b8a0d0;
+  --code-string: #a8d08a;
+  --code-number: #d4b85c;
+  --code-comment: #5a6a58;
+  --code-tag: #8ab8c8;
+  --code-attr: #d0c080;
+  --code-punct: #8a9a88;
+  --code-func: #8a9a5b;
+}
+
+/* --- Theme: Midnight (Pure Black) --- */
+[data-theme="midnight"] {
+  --bg: #000000;
+  --bg-elevated: #060608;
+  --bg-panel: #0a0a0e;
+  --bg-panel-hover: #121218;
+  --bg-input: #000000;
+  --border: rgba(255, 255, 255, 0.05);
+  --border-strong: rgba(255, 255, 255, 0.1);
+  --text: #f0f2f5;
+  --text-secondary: #9aa0a8;
+  --text-dim: #555a62;
+  --text-faint: #252830;
+  --accent: #7c8aff;
+  --accent-hover: #8c9aff;
+  --accent-glow: rgba(124, 138, 255, 0.22);
+  --success: #4adf9e;
+  --warning: #e8c05a;
+  --error: #ff6b7a;
+  --inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), inset 0 -1px 0 rgba(255, 255, 255, 0.01);
+  --inner-shadow-strong: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(255, 255, 255, 0.015);
+  --code-keyword: #c9a0ff;
+  --code-string: #a8e0a0;
+  --code-number: #f0c070;
+  --code-comment: #404550;
+  --code-tag: #80d0f0;
+  --code-attr: #e8c880;
+  --code-punct: #8890a0;
+  --code-func: #7c8aff;
+}
+
+/* =========================================================================
+   RESET & BASE
+   ========================================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background var(--transition-slow), color var(--transition-slow);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* =========================================================================
+   APP LAYOUT
+   ========================================================================= */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 100dvh;
+}
+
+/* =========================================================================
+   TOP BAR
+   ========================================================================= */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  flex: 0 0 auto;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  padding-top: calc(6px + env(safe-area-inset-top));
+  box-shadow: var(--inner-shadow);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+  position: relative;
+  z-index: 20;
+}
+.topbar::-webkit-scrollbar { display: none; }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 10px;
+  margin-right: 4px;
+  border-right: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+
+.logo {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  box-shadow: 0 2px 8px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.logo:active { transform: scale(0.94); }
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex: 0 0 auto;
+  margin: 0 3px;
+}
+
+.spacer { flex: 1 1 auto; min-width: 6px; }
+
+/* =========================================================================
+   BUTTONS
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-elevated));
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+              color var(--transition-fast), box-shadow var(--transition-fast),
+              transform var(--transition-fast);
+  user-select: none;
+  box-shadow: var(--inner-shadow), 0 1px 2px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.08), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+.btn:hover::after { opacity: 1; }
+.btn:hover {
+  background: linear-gradient(180deg, var(--bg-panel-hover), var(--bg-panel));
+  border-color: var(--border-strong);
+}
+.btn:active {
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+  pointer-events: none;
+}
+.btn.icon {
+  padding: 0;
+  width: 30px;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--text-dim);
+}
+.btn.ghost:hover {
+  background: var(--bg-panel);
+  color: var(--text);
+}
+.btn.primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-hover));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 2px 10px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn.primary:hover {
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+}
+.btn.danger {
+  background: linear-gradient(180deg, rgba(255,95,109,0.15), rgba(255,95,109,0.08));
+  border-color: rgba(255,95,109,0.25);
+  color: #ffb0b6;
+}
+.btn.danger:hover {
+  background: linear-gradient(180deg, rgba(255,95,109,0.22), rgba(255,95,109,0.12));
+  border-color: rgba(255,95,109,0.4);
+}
+.btn.sm {
+  height: 24px;
+  font-size: 11px;
+  padding: 0 8px;
+  border-radius: 5px;
+}
+.btn.sm.icon { width: 24px; padding: 0; }
+.btn.active {
+  background: linear-gradient(180deg, var(--accent-glow), transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn svg { flex: 0 0 auto; }
+
+/* =========================================================================
+   MAIN LAYOUT
+   ========================================================================= */
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* =========================================================================
+   SIDEBAR
+   ========================================================================= */
+.sidebar {
+  width: 230px;
+  flex: 0 0 230px;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-shadow: var(--inner-shadow);
+  transition: width var(--transition-med), flex-basis var(--transition-med),
+              background var(--transition-slow), border-color var(--transition-slow);
+  overflow: hidden;
+}
+.sidebar.collapsed {
+  width: 0;
+  flex-basis: 0;
+  border-right: 0;
+}
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px 0 12px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  font-weight: 700;
+  background: var(--bg-panel);
+  white-space: nowrap;
+}
+.tree {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 5px 5px 40px;
+  -webkit-overflow-scrolling: touch;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 29px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.row:hover { background: var(--bg-panel-hover); }
+.row.sel {
+  background: var(--accent-glow);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), inset 0 0 0 1px var(--accent);
+}
+.row.sel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.row .chev {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  display: grid;
+  place-items: center;
+  color: var(--text-faint);
+  transition: transform var(--transition-fast);
+}
+.row .chev.open { transform: rotate(90deg); }
+.row .ic {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: var(--text-dim);
+  transition: color var(--transition-fast);
+}
+.row.sel .ic { color: var(--accent); }
+.row.folder .ic { color: var(--text-dim); }
+.row.sel.folder .ic { color: var(--accent); }
+.row .name {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+/* =========================================================================
+   WORKSPACE
+   ========================================================================= */
+.workspace {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* --- Tabs --- */
+.tabs {
+  display: flex;
+  align-items: stretch;
+  height: 36px;
+  flex: 0 0 36px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  box-shadow: var(--inner-shadow);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px 0 11px;
+  border-right: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  user-select: none;
+  position: relative;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+.tab:hover {
+  color: var(--text-secondary);
+  background: var(--bg-panel);
+}
+.tab.active {
+  background: var(--bg);
+  color: var(--text);
+}
+.tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: tabIn var(--transition-med) var(--ease-out);
+}
+@keyframes tabIn {
+  from { transform: scaleX(0.3); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+.tab .tx {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  color: var(--text-faint);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.tab .tx:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text);
+}
+.tab .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--warning);
+  flex: 0 0 auto;
+}
+
+/* --- Editor Tools --- */
+.editor-tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  flex: 0 0 32px;
+  padding: 0 8px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: var(--inner-shadow);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.editor-tools::-webkit-scrollbar { display: none; }
+.path-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  padding-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* --- Editor Area --- */
+.editor-area {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  transition: flex-direction var(--transition-med);
+}
+.editor-area.preview-side { flex-direction: row; }
+.editor-area.preview-bottom { flex-direction: column; }
+
+.editor-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+  transition: background var(--transition-slow);
+}
+
+/* --- Preview Pane --- */
+.preview-pane {
+  display: none;
+  min-height: 0;
+  min-width: 0;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  flex-direction: column;
+  transition: border-color var(--transition-slow), flex var(--transition-med);
+  animation: paneIn var(--transition-med) var(--ease-out);
+}
+@keyframes paneIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.editor-area.preview-side .preview-pane {
+  display: flex;
+  flex: 0 0 44%;
+}
+.editor-area.preview-bottom .preview-pane {
+  display: flex;
+  flex: 0 0 42%;
+  border-left: 0;
+  border-top: 1px solid var(--border);
+  animation: paneInBottom var(--transition-med) var(--ease-out);
+}
+@keyframes paneInBottom {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.preview-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  flex: 0 0 30px;
+  padding: 0 6px 0 10px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  box-shadow: var(--inner-shadow);
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  margin-right: 4px;
+  box-shadow: 0 0 6px var(--success);
+  animation: pulse 1.8s ease-in-out infinite;
+  transition: background var(--transition-med), box-shadow var(--transition-med);
+}
+.live-dot.paused {
+  background: var(--warning);
+  box-shadow: 0 0 6px var(--warning);
+  animation: none;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.preview-pane iframe {
+  flex: 1 1 auto;
+  border: 0;
+  width: 100%;
+  background: #fff;
+  min-height: 0;
+}
+
+/* --- Gutter --- */
+.gutter {
+  flex: 0 0 50px;
+  width: 50px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--fs, 13px);
+  line-height: 20px;
+  color: var(--text-faint);
+  user-select: none;
+  contain: strict;
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.gutter-inner {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  text-align: right;
+  padding-right: 10px;
+  white-space: pre;
+  will-change: transform;
+}
+
+/* --- Editor Body --- */
+.editor-body {
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+.hl, .code {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: var(--fs, 13px);
+  line-height: 20px;
+  white-space: pre;
+  tab-size: 2;
+  -moz-tab-size: 2;
+  border: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.editor-body.wrap .hl,
+.editor-body.wrap .code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.hl {
+  color: var(--text);
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.code {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--accent);
+  background: transparent;
+  resize: none;
+  outline: none;
+  z-index: 2;
+  display: block;
+}
+.code::selection {
+  background: var(--accent-glow);
+  -webkit-text-fill-color: transparent;
+}
+.editor-body.no-hl .hl { display: none; }
+.editor-body.no-hl .code {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+
+/* --- Syntax Colors --- */
+.hl .k { color: var(--code-keyword); }
+.hl .s { color: var(--code-string); }
+.hl .n { color: var(--code-number); }
+.hl .c { color: var(--code-comment); font-style: italic; }
+.hl .t { color: var(--code-tag); }
+.hl .a { color: var(--code-attr); }
+.hl .p { color: var(--code-punct); }
+.hl .g { color: var(--code-func); }
+
+/* --- Viewer --- */
+.viewer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: var(--bg);
+  overflow: auto;
+  display: none;
+  padding: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  transition: background var(--transition-slow);
+}
+.viewer.show { display: flex; animation: fadeIn var(--transition-med) var(--ease-out); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.viewer img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-md);
+  background: repeating-conic-gradient(var(--bg-panel) 0 25%, var(--bg) 0 50%) 0 0 / 18px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.viewer audio, .viewer video {
+  width: 100%;
+  max-width: 560px;
+  margin-top: 20px;
+  border-radius: var(--radius-sm);
+}
+.asset-card {
+  max-width: 440px;
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-elevated));
+  padding: 24px;
+  text-align: center;
+  box-shadow: var(--inner-shadow-strong), 0 12px 40px rgba(0,0,0,0.6);
+}
+.asset-card .big {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: var(--inner-shadow);
+}
+.asset-card h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  word-break: break-all;
+}
+.asset-card p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.asset-card code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* --- Empty State --- */
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-faint);
+  z-index: 6;
+  background: var(--bg);
+  transition: background var(--transition-slow);
+}
+.empty-state .es-ic {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  display: grid;
+  place-items: center;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  box-shadow: var(--inner-shadow);
+}
+
+/* =========================================================================
+   STATUS BAR
+   ========================================================================= */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 22px;
+  flex: 0 0 22px;
+  padding: 0 12px;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  box-shadow: var(--inner-shadow);
+  overflow: hidden;
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.status-bar .sep { color: var(--text-faint); }
+.status-bar .spacer { flex: 1 1 auto; }
+.status-bar .ind {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.status-bar .ind::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--success);
+  transition: background var(--transition-med);
+}
+.status-bar .ind.dirty::before { background: var(--warning); }
+
+/* =========================================================================
+   CONSOLE
+   ========================================================================= */
+.console {
+  flex: 0 0 auto;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  min-height: 0;
+  transition: height var(--transition-med) var(--ease-out);
+  box-shadow: var(--inner-shadow);
+}
+.console.collapsed { height: 32px; }
+.console-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px 0 10px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  font-weight: 700;
+  background: var(--bg-panel);
+  transition: border-color var(--transition-slow), background var(--transition-slow);
+}
+.console.collapsed .console-head { border-bottom: 0; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 15px;
+  padding: 0 5px;
+  border-radius: 8px;
+  background: var(--bg-panel-hover);
+  color: var(--text-dim);
+  font-size: 9px;
+  letter-spacing: 0;
+  font-weight: 700;
+  box-shadow: var(--inner-shadow);
+}
+.badge.err {
+  background: rgba(255,95,109,0.14);
+  color: #ff8f99;
+}
+.console-body {
+  flex: 1 1 auto;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.55;
+  padding: 4px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.console.collapsed .console-body { display: none; }
+.log {
+  display: flex;
+  gap: 8px;
+  padding: 2px 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-left: 2px solid transparent;
+  transition: background var(--transition-fast);
+}
+.log .lvl {
+  flex: 0 0 38px;
+  color: var(--text-faint);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding-top: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.log .msg { flex: 1 1 auto; min-width: 0; }
+.log.error {
+  color: #ffb0b6;
+  background: rgba(255,95,109,0.04);
+  border-left-color: var(--error);
+}
+.log.warn {
+  color: #e9cf9d;
+  background: rgba(226,176,74,0.03);
+  border-left-color: var(--warning);
+}
+.log.info { color: var(--text-secondary); }
+.log.sys { color: var(--text-faint); }
+.log .stack {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-dim);
+  font-size: 10px;
+  white-space: pre-wrap;
+}
+.log .src {
+  display: block;
+  margin-top: 1px;
+  color: var(--text-faint);
+  font-size: 10px;
+}
+
+/* =========================================================================
+   OVERLAYS
+   ========================================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+  animation: fadeIn var(--transition-med) var(--ease-out);
+}
+.overlay.show { display: flex; }
+.overlay-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+  padding-top: calc(6px + env(safe-area-inset-top));
+}
+.overlay-title {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  padding-left: 4px;
+}
+.overlay iframe {
+  flex: 1 1 auto;
+  border: 0;
+  width: 100%;
+  background: #fff;
+}
+
+/* =========================================================================
+   MODALS
+   ========================================================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: calc(60px + env(safe-area-inset-top));
+  animation: modalBgIn var(--transition-med) var(--ease-out);
+}
+@keyframes modalBgIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal.show { display: flex; }
+.modal-inner {
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--inner-shadow-strong), 0 30px 80px rgba(0,0,0,0.8),
+              0 0 0 0.5px var(--border);
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  animation: modalIn var(--transition-slow) var(--ease-out);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-inner.wide { max-width: 660px; }
+.modal-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  background: rgba(255,255,255,0.01);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.modal-head .ic {
+  color: var(--text-dim);
+  display: grid;
+  place-items: center;
+}
+.modal-body {
+  padding: 16px 18px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.modal-foot {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  background: rgba(255,255,255,0.01);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+
+/* --- Form Fields --- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.field:last-child { margin-bottom: 0; }
+.field label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+.field .hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  line-height: 1.5;
+}
+.input {
+  height: 34px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  box-shadow: var(--inner-shadow), 0 1px 2px rgba(0,0,0,0.4);
+  font-family: var(--font-mono);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: var(--inner-shadow), 0 0 0 3px var(--accent-glow);
+}
+select.input {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  padding-right: 28px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+/* --- Segmented Control --- */
+.segmented {
+  display: inline-flex;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+  box-shadow: var(--inner-shadow);
+}
+.segmented button {
+  flex: 1 1 auto;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast),
+              box-shadow var(--transition-fast);
+  white-space: nowrap;
+}
+.segmented button:hover { color: var(--text); }
+.segmented button.on {
+  background: linear-gradient(180deg, var(--bg-panel-hover), var(--bg-panel));
+  color: var(--text);
+  box-shadow: var(--inner-shadow), 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* --- Switch --- */
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity var(--transition-fast);
+}
+.switch + .switch { border-top: 1px solid var(--border); }
+.switch .sw-label { flex: 1 1 auto; font-size: 12px; color: var(--text); }
+.switch .sw-desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.switch .sw-box {
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  position: relative;
+  transition: background var(--transition-med), border-color var(--transition-med),
+              box-shadow var(--transition-med);
+  flex: 0 0 auto;
+  box-shadow: var(--inner-shadow), inset 0 1px 2px rgba(0,0,0,0.5);
+}
+.switch .sw-box::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--text-dim), var(--text-faint));
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: transform var(--transition-med) var(--ease-out),
+              background var(--transition-med);
+}
+.switch.on .sw-box {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: var(--inner-shadow), 0 0 8px var(--accent-glow);
+}
+.switch.on .sw-box::after {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* --- Search Panel --- */
+.search-rows {
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.search-opts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+.opt:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.opt.on {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.search-results {
+  max-height: 320px;
+  overflow: auto;
+  padding: 2px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.sr-file {
+  padding: 6px 14px 2px;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sr-file .count {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.sr-match {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 14px 4px 20px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  border-left: 2px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+.sr-match:hover {
+  background: var(--bg-panel);
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+.sr-match .ln {
+  flex: 0 0 30px;
+  color: var(--text-faint);
+  text-align: right;
+}
+.sr-match .tx {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sr-match mark {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+.sr-empty {
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
+/* =========================================================================
+   MENU
+   ========================================================================= */
+.menu {
+  position: fixed;
+  z-index: 300;
+  min-width: 210px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  display: none;
+  box-shadow: var(--inner-shadow-strong), 0 20px 50px rgba(0,0,0,0.7);
+  animation: menuIn var(--transition-fast) var(--ease-out);
+}
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.menu.show { display: block; }
+.mi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  text-align: left;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  font-family: inherit;
+}
+.mi:hover { background: var(--bg-panel-hover); }
+.mi svg { color: var(--text-dim); flex: 0 0 auto; }
+.mi.danger { color: #ff8f99; }
+.mi.danger svg { color: #ff8f99; }
+.mi .kbd {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-faint);
+  padding: 1px 4px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+}
+
+/* =========================================================================
+   TOASTS
+   ========================================================================= */
+.toasts {
+  position: fixed;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  pointer-events: none;
+}
+.toast {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  box-shadow: var(--inner-shadow-strong), 0 10px 30px rgba(0,0,0,0.6);
+  animation: toastIn var(--transition-med) var(--ease-out);
+  max-width: 88vw;
+  text-align: center;
+  font-weight: 500;
+}
+.toast.err {
+  border-color: rgba(255,95,109,0.3);
+  background: linear-gradient(180deg, rgba(255,95,109,0.08), var(--bg-elevated));
+  color: #ffb0b6;
+}
+.toast.ok {
+  border-color: rgba(62,207,142,0.3);
+  background: linear-gradient(180deg, rgba(62,207,142,0.08), var(--bg-elevated));
+  color: #8ff0c4;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* =========================================================================
+   3D VIEWER
+   ========================================================================= */
+.viewer-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+}
+.viewer-3d.show { display: flex; animation: fadeIn var(--transition-med) var(--ease-out); }
+.viewer-3d-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  flex: 0 0 32px;
+  padding: 0 8px 0 12px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  box-shadow: var(--inner-shadow);
+}
+.viewer-3d canvas {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.viewer-3d .loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text-dim);
+  font-size: 12px;
+  z-index: 2;
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+@media (max-width: 760px) {
+  .sidebar { width: 190px; flex-basis: 190px; }
+  .gutter { flex-basis: 42px; width: 42px; }
+  .console { height: 150px; }
+  .editor-area.preview-side .preview-pane { flex: 0 0 50%; }
+  .path-label { max-width: 140px; }
+  .brand { padding-right: 6px; margin-right: 2px; }
+}
+
+@media (max-width: 520px) {
+  .sidebar { width: 160px; flex-basis: 160px; }
+  .btn span { display: none; }
+  .btn { padding: 0 7px; }
+}
+</style>
+</head>
+<body data-theme="obsidian">
+
+<div id="app">
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" id="logoSlot"></span>
+    </div>
+
+    <button class="btn icon" id="btnNewFile" title="New file (Ctrl+N)"></button>
+    <button class="btn icon" id="btnNewFolder" title="New folder"></button>
+    <button class="btn icon" id="btnRename" title="Rename"></button>
+    <button class="btn icon" id="btnDelete" title="Delete"></button>
+    <button class="btn icon danger" id="btnDeleteAll" title="Delete all files"></button>
+
+    <span class="divider"></span>
+
+    <button class="btn icon" id="btnSearch" title="Find & replace (Ctrl+F)"></button>
+    <button class="btn" id="btnImport" data-menu="1"></button>
+    <button class="btn" id="btnExport" data-menu="1"></button>
+
+    <span class="spacer"></span>
+
+    <button class="btn icon" id="btnSettings" title="Settings"></button>
+    <button class="btn icon" id="btnRun" title="Run preview (Ctrl+Enter)"></button>
+    <button class="btn primary" id="btnOpenTab"></button>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-head">
+        <span>Explorer</span>
+        <span class="spacer"></span>
+        <button class="btn sm icon ghost" id="btnCollapseAll" title="Collapse all"></button>
+      </div>
+      <div class="tree" id="tree"></div>
+    </aside>
+
+    <!-- Workspace -->
+    <section class="workspace">
+      <div class="tabs" id="tabs"></div>
+
+      <div class="editor-tools">
+        <span class="path-label" id="pathLabel">no file open</span>
+        <span class="spacer"></span>
+        <button class="btn sm ghost" id="btnWrap" title="Toggle word wrap"></button>
+        <button class="btn sm ghost" id="btnSelectAll"></button>
+        <button class="btn sm ghost" id="btnCopySel"></button>
+        <button class="btn sm ghost" id="btnPaste"></button>
+        <button class="btn sm ghost" id="btnFormat"></button>
+      </div>
+
+      <div class="editor-area" id="editorArea">
+        <div class="editor-wrap" id="editorWrap">
+          <div class="gutter" id="gutter">
+            <div class="gutter-inner" id="gutterInner"></div>
+          </div>
+          <div class="editor-body" id="editorBody">
+            <pre class="hl" id="hl"></pre>
+            <textarea class="code" id="code" spellcheck="false" autocapitalize="off"
+                      autocorrect="off" autocomplete="off" wrap="off"></textarea>
+          </div>
+
+          <!-- Binary asset viewer -->
+          <div class="viewer" id="viewer"></div>
+
+          <!-- 3D viewer -->
+          <div class="viewer-3d" id="viewer3d">
+            <div class="viewer-3d-head">
+              <span id="viewer3dIcon"></span>
+              <span id="viewer3dTitle">3D Model</span>
+              <span class="spacer"></span>
+              <button class="btn sm icon ghost" id="btn3dReset" title="Reset view"></button>
+              <button class="btn sm icon ghost" id="btn3dClose" title="Close"></button>
+            </div>
+            <div class="loading" id="viewer3dLoading">Loading model…</div>
+            <canvas id="viewer3dCanvas"></canvas>
+          </div>
+
+          <div class="empty-state" id="emptyState">
+            <div class="es-ic" id="emptyIcon"></div>
+            <div>Select a file to begin</div>
+          </div>
+        </div>
+
+        <!-- Preview pane -->
+        <div class="preview-pane" id="previewPane">
+          <div class="preview-head">
+            <span class="live-dot" id="liveDot"></span>
+            <span>Preview</span>
+            <span class="spacer"></span>
+            <button class="btn sm icon ghost" id="btnPreviewReload" title="Reload preview"></button>
+            <button class="btn sm icon ghost" id="btnPreviewPopout" title="Open in new tab"></button>
+            <button class="btn sm icon ghost" id="btnPreviewClose" title="Hide preview"></button>
+          </div>
+          <iframe id="inlinePreview" title="Live preview"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads"></iframe>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <span id="statusPos">Ln 1, Col 1</span>
+        <span class="sep">·</span>
+        <span id="statusSize">0 B</span>
+        <span class="sep">·</span>
+        <span id="statusLang">—</span>
+        <span class="spacer"></span>
+        <span class="ind" id="statusSave">Saved</span>
+      </div>
+
+      <div class="console" id="console">
+        <div class="console-head">
+          <span id="consoleIconSlot"></span>
+          <span>Console</span>
+          <span class="badge" id="logCount">0</span>
+          <span class="spacer"></span>
+          <button class="btn sm ghost" id="btnCopyLogs">Copy</button>
+          <button class="btn sm ghost" id="btnClearLogs">Clear</button>
+          <button class="btn sm icon ghost" id="btnToggleConsole"></button>
+        </div>
+        <div class="console-body" id="consoleBody"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ===== POPUP PREVIEW OVERLAY ===== -->
+<div class="overlay" id="overlay">
+  <div class="overlay-head">
+    <span id="overlayIconSlot"></span>
+    <span class="overlay-title" id="overlayTitle">preview</span>
+    <span class="spacer"></span>
+    <button class="btn sm" id="btnReloadPreview"></button>
+    <button class="btn sm" id="btnExternalFromOverlay"></button>
+    <button class="btn sm icon" id="btnCloseOverlay"></button>
+  </div>
+  <iframe id="previewFrame" title="preview"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads"></iframe>
+</div>
+
+<!-- ===== SETTINGS MODAL ===== -->
+<div class="modal" id="settingsModal">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <span class="ic" id="settingsIcon"></span>
+      <span>Settings</span>
+      <span class="spacer"></span>
+      <button class="btn sm icon ghost" id="settingsClose"></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Theme -->
+      <div class="field">
+        <label>Theme</label>
+        <div class="segmented" id="segTheme">
+          <button data-v="obsidian">Obsidian</button>
+          <button data-v="ember">Ember</button>
+          <button data-v="forest">Forest</button>
+          <button data-v="midnight">Midnight</button>
+        </div>
+        <div class="hint">Ember is a warm, cozy theme for long sessions.</div>
+      </div>
+
+      <!-- Preview mode -->
+      <div class="field">
+        <label>Live preview</label>
+        <div class="segmented" id="segPreview">
+          <button data-v="off">Off</button>
+          <button data-v="side">Side</button>
+          <button data-v="bottom">Bottom</button>
+          <button data-v="popup">Popup</button>
+        </div>
+      </div>
+
+      <!-- Auto-refresh -->
+      <div class="switch" id="swAuto">
+        <div>
+          <span class="sw-label">Auto-refresh preview</span>
+          <span class="sw-desc">Rebuilds preview ~700ms after you stop typing.</span>
+        </div>
+        <div class="sw-box"></div>
+      </div>
+
+      <!-- Highlight -->
+      <div class="switch" id="swHighlight">
+        <div>
+          <span class="sw-label">Syntax highlighting</span>
+          <span class="sw-desc">Disabled automatically on very large files.</span>
+        </div>
+        <div class="sw-box"></div>
+      </div>
+
+      <!-- Line numbers -->
+      <div class="switch" id="swLineNums">
+        <div>
+          <span class="sw-label">Line numbers</span>
+        </div>
+        <div class="sw-box"></div>
+      </div>
+
+      <!-- 3D auto-rotate -->
+      <div class="switch" id="sw3dRotate">
+        <div>
+          <span class="sw-label">3D auto-rotate</span>
+          <span class="sw-desc">Models spin slowly when opened.</span>
+        </div>
+        <div class="sw-box"></div>
+      </div>
+
+      <!-- 3D background -->
+      <div class="field">
+        <label>3D viewer background</label>
+        <div class="segmented" id="seg3dBg">
+          <button data-v="dark">Dark</button>
+          <button data-v="light">Light</button>
+          <button data-v="transparent">Grid</button>
+        </div>
+      </div>
+
+      <!-- Font size -->
+      <div class="field">
+        <label>Editor font size</label>
+        <div class="segmented" id="segFont">
+          <button data-v="11">11</button>
+          <button data-v="12">12</button>
+          <button data-v="13">13</button>
+          <button data-v="14">14</button>
+          <button data-v="15">15</button>
+        </div>
+      </div>
+
+      <!-- Tab size -->
+      <div class="field">
+        <label>Tab size</label>
+        <div class="segmented" id="segTabSize">
+          <button data-v="2">2</button>
+          <button data-v="4">4</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="settingsReset">Reset defaults</button>
+      <button class="btn primary" id="settingsDone">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEARCH MODAL ===== -->
+<div class="modal" id="searchModal">
+  <div class="modal-inner wide">
+    <div class="modal-head">
+      <span class="ic" id="searchIcon"></span>
+      <span>Find &amp; Replace</span>
+      <span class="spacer"></span>
+      <button class="btn sm icon ghost" id="searchCloseTop"></button>
+    </div>
+
+    <div class="search-rows">
+      <input class="input" id="searchInput" placeholder="Find…" autocomplete="off" spellcheck="false">
+      <input class="input" id="replaceInput" placeholder="Replace with…" autocomplete="off" spellcheck="false">
+      <div class="search-opts">
+        <span class="opt" id="optCase" title="Match case">Aa</span>
+        <span class="opt" id="optWord" title="Whole word">Word</span>
+        <span class="opt" id="optRegex" title="Regular expression">.*</span>
+        <span class="spacer" style="flex:1"></span>
+        <span class="opt" id="optScope" title="Search scope">In: file</span>
+      </div>
+    </div>
+
+    <div class="search-results" id="searchResults">
+      <div class="sr-empty">Type a query to search…</div>
+    </div>
+
+    <div class="modal-foot">
+      <span style="margin-right:auto;font-size:11px;color:var(--text-dim)" id="searchStat"></span>
+      <button class="btn" id="btnReplaceOne" disabled>Replace</button>
+      <button class="btn primary" id="btnReplaceAll" disabled>Replace All</button>
+    </div>
+  </div>
+</div>
+
+<div class="menu" id="menu"></div>
+<div class="toasts" id="toasts"></div>
+
+<input type="file" id="fileInput" multiple hidden>
+<input type="file" id="zipInput" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+<input type="file" id="folderInput" webkitdirectory directory multiple hidden>
+
+<script>
+"use strict";
+/* =========================================================================
+   FORGE STUDIO — Complete Rewrite
+   ========================================================================= */
+
+/* =========================================================================
+   ICONS (SVG)
+   ========================================================================= */
+const ICONS = {
+  logo:'<path d="M9 4 4 12l5 8"/><path d="m15 4 5 8-5 8"/>',
+  filePlus:'<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M12 12v6M9 15h6"/>',
+  folderPlus:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v6M9 14h6"/>',
+  upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 11l5 5 5-5"/><path d="M12 16V4"/>',
+  play:'<polygon points="7 4.5 19 12 7 19.5" fill="currentColor" stroke="none"/>',
+  external:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',
+  wand:'<path d="m3 21 9-9"/><path d="M15 5V3M15 11V9M9 9H7M21 9h-2M17.5 6.5 18.9 5.1M17.5 11.5l1.4 1.4M11.5 6.5 10.1 5.1"/>',
+  copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  clipboard:'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
+  selectAll:'<path d="M3 5a2 2 0 0 1 2-2h3M3 19a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3"/><path d="m9 12 2 2 4-4"/>',
+  trash:'<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>',
+  trashAll:'<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="m9 14 6 6M15 14l-6 6"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  chevron:'<polyline points="9 18 15 12 9 6"/>',
+  chevronDown:'<polyline points="6 9 12 15 18 9"/>',
+  file:'<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/>',
+  audio:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  code:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  terminal:'<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+  refresh:'<path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v5h-5"/>',
+  box:'<path d="m21 8-9-5-9 5v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v9"/>',
+  cube:'<path d="m21 8-9-5-9 5v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v9"/>',
+  save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+  layers:'<path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+  zip:'<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M10 3v3M12 6v3M10 9v3M12 12v3"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/>',
+  fileCode:'<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="m10 12-2 2 2 2M14 12l2 2-2 2"/>',
+  folderOpen:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1"/><path d="m3 9 2.4 9.3A2 2 0 0 0 7.3 20h9.9a2 2 0 0 0 1.9-1.4L22 9z"/>',
+  collapse:'<path d="m7 13 5-5 5 5"/><path d="m7 18 5-5 5 5"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+  wrap:'<path d="M3 6h18M3 12h15a3 3 0 1 1 0 6h-4"/><path d="m16 16-2 2 2 2"/><path d="M3 18h7"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/>',
+  maximize:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
+  minimize:'<path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/>'
+};
+
+function ico(name, size) {
+  size = size || 16;
+  return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    (ICONS[name] || ICONS.file) + '</svg>';
+}
+
+/* =========================================================================
+   UTILITIES
+   ========================================================================= */
+const $ = function(s) { return document.querySelector(s); };
+const $$ = function(s) { return document.querySelectorAll(s); };
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+
+/* --- File type maps --- */
+const TEXT_EXT = new Set(('js mjs cjs jsx ts tsx json html htm xhtml css scss sass less ' +
+  'md markdown txt svg xml yml yaml toml ini cfg conf env gitignore glsl vert frag wgsl ' +
+  'py pyw java c h cpp hpp cc cxx cs rb go rs php sh bash zsh fish bat ps1 sql vue svelte ' +
+  'lua swift kt kts dart r pl pm csv tsv graphql gql proto asm s v vhd cshtml erb haml pug ' +
+  'obj mtl dae stl').split(' '));
+
+const MIME = {
+  html:'text/html;charset=utf-8', htm:'text/html;charset=utf-8', xhtml:'application/xhtml+xml',
+  js:'text/javascript;charset=utf-8', mjs:'text/javascript;charset=utf-8',
+  cjs:'text/javascript;charset=utf-8', jsx:'text/javascript;charset=utf-8',
+  ts:'text/typescript;charset=utf-8', tsx:'text/typescript;charset=utf-8',
+  json:'application/json;charset=utf-8', css:'text/css;charset=utf-8',
+  svg:'image/svg+xml', xml:'application/xml;charset=utf-8',
+  md:'text/markdown;charset=utf-8', txt:'text/plain;charset=utf-8',
+  png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp',
+  bmp:'image/bmp', ico:'image/x-icon', avif:'image/avif', apng:'image/apng',
+  mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', oga:'audio/ogg', m4a:'audio/mp4',
+  aac:'audio/aac', flac:'audio/flac', opus:'audio/opus', weba:'audio/webm',
+  mp4:'video/mp4', webm:'video/webm', ogv:'video/ogg', mov:'video/quicktime', m4v:'video/mp4',
+  glb:'model/gltf-binary', gltf:'model/gltf+json',
+  ttf:'font/ttf', otf:'font/otf', woff:'font/woff', woff2:'font/woff2',
+  pdf:'application/pdf', wasm:'application/wasm', zip:'application/zip',
+  wgsl:'text/plain;charset=utf-8', glsl:'text/plain;charset=utf-8'
+};
+
+const IMAGE_EXT = new Set(['png','jpg','jpeg','gif','webp','bmp','ico','avif','apng','svg']);
+const AUDIO_EXT = new Set(['mp3','wav','ogg','oga','m4a','aac','flac','opus','weba']);
+const VIDEO_EXT = new Set(['mp4','webm','ogv','mov','m4v']);
+const FONT_EXT  = new Set(['ttf','otf','woff','woff2']);
+const MODEL_EXT = new Set(['glb','gltf','obj','fbx','dae','stl','3ds','amf']);
+
+const LANG_NAME = {
+  js:'JavaScript', mjs:'JavaScript', cjs:'JavaScript', jsx:'JSX', ts:'TypeScript',
+  tsx:'TSX', json:'JSON', html:'HTML', htm:'HTML', css:'CSS', scss:'SCSS', less:'Less',
+  md:'Markdown', svg:'SVG', xml:'XML', py:'Python', java:'Java', c:'C', cpp:'C++', cs:'C#',
+  rb:'Ruby', go:'Go', rs:'Rust', php:'PHP', sh:'Shell', sql:'SQL', vue:'Vue', svelte:'Svelte',
+  yml:'YAML', yaml:'YAML', toml:'TOML', txt:'Plain text', glsl:'GLSL', wgsl:'WGSL',
+  obj:'Wavefront OBJ', glb:'glTF Binary', gltf:'glTF JSON', fbx:'FBX', stl:'STL'
+};
+
+function extOf(p) { const i = p.lastIndexOf('.'); return i < 0 ? '' : p.slice(i+1).toLowerCase(); }
+function dirOf(p) { const i = p.lastIndexOf('/'); return i < 0 ? '' : p.slice(0, i); }
+function baseOf(p) { const i = p.lastIndexOf('/'); return i < 0 ? p : p.slice(i+1); }
+function mimeOf(p) { const e = extOf(p); return MIME[e] || (TEXT_EXT.has(e) ? 'text/plain;charset=utf-8' : 'application/octet-stream'); }
+function isTextPath(p) { return TEXT_EXT.has(extOf(p)); }
+function esc(s) { return s.replace(/[&<>"]/g, function(c) { return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&quot;'; }); }
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function fmtBytes(n) {
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n/1024).toFixed(1) + ' KB';
+  return (n/1048576).toFixed(2) + ' MB';
+}
+function uid() { return Math.random().toString(36).slice(2, 10); }
+
+/* =========================================================================
+   SETTINGS
+   ========================================================================= */
+const DEFAULTS = {
+  theme: 'obsidian',
+  previewMode: 'side',
+  autoRefresh: true,
+  highlight: true,
+  lineNumbers: true,
+  wordWrap: false,
+  fontSize: 13,
+  tabSize: 2,
+  modelAutoRotate: true,
+  modelBg: 'dark'
+};
+
+const settings = Object.assign({}, DEFAULTS);
+try {
+  const raw = localStorage.getItem('forge-settings');
+  if (raw) Object.assign(settings, JSON.parse(raw));
+} catch(e) {}
+
+function saveSettings() {
+  try { localStorage.setItem('forge-settings', JSON.stringify(settings)); } catch(e) {}
+}
+
+function applySettings() {
+  document.body.setAttribute('data-theme', settings.theme);
+  document.documentElement.style.setProperty('--fs', settings.fontSize + 'px');
+  gutter.style.display = (settings.lineNumbers && !viewerEl.classList.contains('show')) ? '' : 'none';
+  editorBody.classList.toggle('wrap', settings.wordWrap);
+  ta.style.tabSize = settings.tabSize;
+  ta.style.MozTabSize = settings.tabSize;
+  updateHighlight();
+  applyPreviewMode();
+  updateUIFromSettings();
+  saveSettings();
+}
+
+function applyPreviewMode() {
+  const area = $('#editorArea');
+  area.classList.remove('preview-side', 'preview-bottom');
+  if (settings.previewMode === 'side') area.classList.add('preview-side');
+  else if (settings.previewMode === 'bottom') area.classList.add('preview-bottom');
+  const liveDot = $('#liveDot');
+  liveDot.classList.toggle('paused', !settings.autoRefresh);
+}
+
+function updateUIFromSettings() {
+  $$('#segTheme button').forEach(function(b) { b.classList.toggle('on', b.dataset.v === settings.theme); });
+  $$('#segPreview button').forEach(function(b) { b.classList.toggle('on', b.dataset.v === settings.previewMode); });
+  $$('#segFont button').forEach(function(b) { b.classList.toggle('on', +b.dataset.v === settings.fontSize); });
+  $$('#segTabSize button').forEach(function(b) { b.classList.toggle('on', +b.dataset.v === settings.tabSize); });
+  $$('#seg3dBg button').forEach(function(b) { b.classList.toggle('on', b.dataset.v === settings.modelBg); });
+  $('#swAuto').classList.toggle('on', settings.autoRefresh);
+  $('#swHighlight').classList.toggle('on', settings.highlight);
+  $('#swLineNums').classList.toggle('on', settings.lineNumbers);
+  $('#sw3dRotate').classList.toggle('on', settings.modelAutoRotate);
+  $('#btnWrap').classList.toggle('active', settings.wordWrap);
+}
+
+/* =========================================================================
+   VIRTUAL FILE SYSTEM
+   ========================================================================= */
+const nodes = new Map();
+const expanded = new Set(['']);
+let selectedPath = null;
+
+function ensureFolder(path) {
+  if (!path) return;
+  const parts = path.split('/');
+  let cur = '';
+  for (let i = 0; i < parts.length; i++) {
+    cur = cur ? cur + '/' + parts[i] : parts[i];
+    if (!nodes.has(cur)) nodes.set(cur, { type: 'folder', name: parts[i], path: cur });
+  }
+}
+
+function writeFile(path, content, binary) {
+  ensureFolder(dirOf(path));
+  nodes.set(path, {
+    type: 'file', name: baseOf(path), path: path,
+    content: binary ? null : content,
+    data: binary ? content : null,
+    binary: !!binary
+  });
+}
+
+function uniquePath(path) {
+  if (!nodes.has(path)) return path;
+  const dir = dirOf(path), base = baseOf(path);
+  const dot = base.lastIndexOf('.');
+  const stem = dot > 0 ? base.slice(0, dot) : base;
+  const ext = dot > 0 ? base.slice(dot) : '';
+  let i = 1, p;
+  do { p = (dir ? dir + '/' : '') + stem + ' ' + (i++) + ext; } while (nodes.has(p));
+  return p;
+}
+
+function listChildren(dir) {
+  const out = [];
+  nodes.forEach(function(n, p) {
+    if (p === '') return;
+    if (dirOf(p) === dir) out.push(n);
+  });
+  out.sort(function(a, b) {
+    if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+    return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+  });
+  return out;
+}
+
+/* =========================================================================
+   APP STATE
+   ========================================================================= */
+const state = { entry: 'index.html' };
+const openTabs = [];
+let activePath = null;
+let currentTextPath = null;
+let lineCount = 1;
+let savePending = false;
+
+/* =========================================================================
+   DOM REFERENCES
+   ========================================================================= */
+const ta = $('#code');
+const hlPre = $('#hl');
+const editorBody = $('#editorBody');
+const gutterInner = $('#gutterInner');
+const gutter = $('#gutter');
+const viewerEl = $('#viewer');
+const viewer3dEl = $('#viewer3d');
+const viewer3dCanvas = $('#viewer3dCanvas');
+const viewer3dLoading = $('#viewer3dLoading');
+const treeEl = $('#tree');
+const tabsEl = $('#tabs');
+const consoleBody = $('#consoleBody');
+const consoleEl = $('#console');
+const overlay = $('#overlay');
+const frame = $('#previewFrame');
+const inlineFrame = $('#inlinePreview');
+
+/* =========================================================================
+   ICON INITIALISATION
+   ========================================================================= */
+$('#logoSlot').innerHTML = ico('logo', 15);
+$('#btnNewFile').innerHTML = ico('filePlus');
+$('#btnNewFolder').innerHTML = ico('folderPlus');
+$('#btnRename').innerHTML = ico('edit');
+$('#btnDelete').innerHTML = ico('trash');
+$('#btnDeleteAll').innerHTML = ico('trashAll');
+$('#btnSearch').innerHTML = ico('search');
+$('#btnSettings').innerHTML = ico('settings');
+$('#btnRun').innerHTML = ico('play');
+$('#btnOpenTab').innerHTML = ico('external', 14) + '<span>Popout</span>';
+$('#btnImport').innerHTML = ico('upload', 14) + '<span>Import</span>' + ico('chevronDown', 12);
+$('#btnExport').innerHTML = ico('download', 14) + '<span>Export</span>' + ico('chevronDown', 12);
+$('#btnSelectAll').innerHTML = ico('selectAll', 13) + '<span>All</span>';
+$('#btnCopySel').innerHTML = ico('copy', 13) + '<span>Copy</span>';
+$('#btnPaste').innerHTML = ico('clipboard', 13) + '<span>Paste</span>';
+$('#btnFormat').innerHTML = ico('wand', 13) + '<span>Format</span>';
+$('#btnWrap').innerHTML = ico('wrap', 13);
+$('#btnCollapseAll').innerHTML = ico('collapse', 14);
+$('#btnToggleConsole').innerHTML = ico('chevronDown', 14);
+$('#consoleIconSlot').innerHTML = ico('terminal', 13);
+$('#emptyIcon').innerHTML = ico('fileCode', 22);
+$('#overlayIconSlot').innerHTML = ico('globe', 14);
+$('#settingsIcon').innerHTML = ico('settings', 14);
+$('#searchIcon').innerHTML = ico('search', 14);
+$('#btnReloadPreview').innerHTML = ico('refresh', 13) + '<span>Reload</span>';
+$('#btnExternalFromOverlay').innerHTML = ico('external', 13) + '<span>New Tab</span>';
+$('#btnCloseOverlay').innerHTML = ico('x', 14);
+$('#settingsClose').innerHTML = ico('x', 14);
+$('#searchCloseTop').innerHTML = ico('x', 14);
+$('#btnPreviewReload').innerHTML = ico('refresh', 13);
+$('#btnPreviewPopout').innerHTML = ico('external', 13);
+$('#btnPreviewClose').innerHTML = ico('x', 13);
+$('#viewer3dIcon').innerHTML = ico('cube', 14);
+$('#btn3dReset').innerHTML = ico('refresh', 13);
+$('#btn3dClose').innerHTML = ico('x', 13);
+
+/* =========================================================================
+   CONSOLE
+   ========================================================================= */
+const logs = [];
+const MAX_LOGS = 700;
+let logErrCount = 0;
+let autoScroll = true;
+
+function addLog(level, text, meta) {
+  const entry = { level: level, text: String(text), meta: meta || null };
+  logs.push(entry);
+  if (logs.length > MAX_LOGS) { logs.shift(); renderLogs(); }
+  else appendLogEl(entry);
+  if (level === 'error') logErrCount++;
+  updateLogBadge();
+}
+
+function appendLogEl(e) {
+  const div = document.createElement('div');
+  div.className = 'log ' + e.level;
+  div.innerHTML = '<span class="lvl"></span><span class="msg"></span>';
+  div.querySelector('.lvl').textContent = e.level;
+  const msg = div.querySelector('.msg');
+  msg.textContent = e.text;
+  if (e.meta && e.meta.source) {
+    const s = document.createElement('span');
+    s.className = 'src';
+    s.textContent = '→ ' + e.meta.source + (e.meta.line ? ':' + e.meta.line + (e.meta.col ? ':' + e.meta.col : '') : '');
+    msg.appendChild(s);
+  }
+  if (e.meta && e.meta.stack) {
+    const st = document.createElement('span');
+    st.className = 'stack';
+    st.textContent = e.meta.stack;
+    msg.appendChild(st);
+  }
+  consoleBody.appendChild(div);
+  if (autoScroll) consoleBody.scrollTop = consoleBody.scrollHeight;
+}
+
+function renderLogs() {
+  consoleBody.innerHTML = '';
+  for (let i = 0; i < logs.length; i++) appendLogEl(logs[i]);
+}
+
+function updateLogBadge() {
+  const b = $('#logCount');
+  b.textContent = logs.length;
+  b.classList.toggle('err', logErrCount > 0);
+}
+
+consoleBody.addEventListener('scroll', function() {
+  autoScroll = (consoleBody.scrollHeight - consoleBody.scrollTop - consoleBody.clientHeight) < 40;
+});
+
+$('#btnClearLogs').addEventListener('click', function() {
+  logs.length = 0; logErrCount = 0;
+  consoleBody.innerHTML = '';
+  updateLogBadge();
+});
+
+$('#btnCopyLogs').addEventListener('click', async function() {
+  const txt = logs.map(function(l) {
+    let s = '[' + l.level.toUpperCase() + '] ' + l.text;
+    if (l.meta && l.meta.source) s += '\n    at ' + l.meta.source;
+    if (l.meta && l.meta.stack) s += '\n' + l.meta.stack.split('\n').map(function(x) { return '    ' + x.trim(); }).join('\n');
+    return s;
+  }).join('\n');
+  if (!txt) { toast('Console is empty'); return; }
+  const ok = await copyText(txt);
+  toast(ok ? 'Console copied (' + logs.length + ' entries)' : 'Copy failed', ok ? 'ok' : 'err');
+});
+
+$('#btnToggleConsole').addEventListener('click', function() {
+  consoleEl.classList.toggle('collapsed');
+  $('#btnToggleConsole').innerHTML = ico(consoleEl.classList.contains('collapsed') ? 'chevron' : 'chevronDown', 14);
+  setTimeout(syncScroll, 200);
+});
+
+/* =========================================================================
+   TOASTS
+   ========================================================================= */
+function toast(msg, type) {
+  const t = document.createElement('div');
+  t.className = 'toast' + (type ? ' ' + type : '');
+  t.textContent = msg;
+  $('#toasts').appendChild(t);
+  setTimeout(function() {
+    t.style.transition = 'opacity .3s, transform .3s';
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(6px)';
+    setTimeout(function() { t.remove(); }, 320);
+  }, 2200);
+}
+
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch(e) {}
+  try {
+    const t = document.createElement('textarea');
+    t.value = text;
+    t.style.position = 'fixed';
+    t.style.opacity = '0';
+    document.body.appendChild(t);
+    t.select();
+    const ok = document.execCommand('copy');
+    t.remove();
+    return ok;
+  } catch(e) { return false; }
+}
+
+/* =========================================================================
+   FILE TREE
+   ========================================================================= */
+function fileIcon(n) {
+  if (n.type === 'folder') return 'folder';
+  const e = extOf(n.path);
+  if (IMAGE_EXT.has(e)) return 'image';
+  if (AUDIO_EXT.has(e)) return 'audio';
+  if (VIDEO_EXT.has(e)) return 'play';
+  if (FONT_EXT.has(e)) return 'layers';
+  if (MODEL_EXT.has(e)) return 'cube';
+  if (e === 'zip') return 'zip';
+  if (e === 'html' || e === 'htm') return 'globe';
+  if (e === 'css') return 'layers';
+  if (e === 'json') return 'box';
+  return 'fileCode';
+}
+
+function renderTree() {
+  const frag = document.createDocumentFragment();
+  renderDir('', frag, 0);
+  treeEl.innerHTML = '';
+  treeEl.appendChild(frag);
+}
+
+function renderDir(dir, frag, depth) {
+  const kids = listChildren(dir);
+  for (let i = 0; i < kids.length; i++) {
+    const n = kids[i];
+    const row = document.createElement('div');
+    row.className = 'row' + (n.type === 'folder' ? ' folder' : '') + (n.path === selectedPath ? ' sel' : '');
+    row.style.paddingLeft = (6 + depth * 13) + 'px';
+    row.dataset.path = n.path;
+
+    let chev = '';
+    if (n.type === 'folder') {
+      chev = '<span class="chev' + (expanded.has(n.path) ? ' open' : '') + '">' + ico('chevron', 12) + '</span>';
+    } else {
+      chev = '<span class="chev"></span>';
+    }
+    row.innerHTML = chev +
+      '<span class="ic">' + ico(fileIcon(n), 14) + '</span>' +
+      '<span class="name"></span>';
+    row.querySelector('.name').textContent = n.name;
+
+    row.addEventListener('click', function() {
+      selectedPath = n.path;
+      if (n.type === 'folder') {
+        if (expanded.has(n.path)) expanded.delete(n.path); else expanded.add(n.path);
+        renderTree();
+      } else {
+        openFile(n.path);
+      }
+      updateToolbarState();
+    });
+
+    frag.appendChild(row);
+    if (n.type === 'folder' && expanded.has(n.path)) {
+      renderDir(n.path, frag, depth + 1);
+    }
+  }
+}
+
+function updateToolbarState() {
+  const has = !!selectedPath && nodes.has(selectedPath);
+  $('#btnRename').disabled = !has;
+  $('#btnDelete').disabled = !has;
+}
+
+/* =========================================================================
+   TABS
+   ========================================================================= */
+function renderTabs() {
+  tabsEl.innerHTML = '';
+  for (let i = 0; i < openTabs.length; i++) {
+    const p = openTabs[i];
+    const n = nodes.get(p);
+    if (!n) continue;
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (p === activePath ? ' active' : '');
+    tab.innerHTML = ico(fileIcon(n), 12) + '<span class="tname"></span>' +
+      '<span class="tx">' + ico('x', 11) + '</span>';
+    tab.querySelector('.tname').textContent = n.name;
+    tab.addEventListener('click', function(e) {
+      if (e.target.closest('.tx')) { closeTab(p); return; }
+      setActive(p);
+    });
+    tabsEl.appendChild(tab);
+  }
+}
+
+function closeTab(p) {
+  const i = openTabs.indexOf(p);
+  if (i < 0) return;
+  openTabs.splice(i, 1);
+  if (activePath === p) {
+    const next = openTabs[Math.max(0, i - 1)] || openTabs[0] || null;
+    if (next) setActive(next); else clearEditor();
+  }
+  renderTabs();
+  persistSoon();
+}
+
+function openFile(path) {
+  if (!nodes.has(path) || nodes.get(path).type !== 'file') return;
+  if (openTabs.indexOf(path) < 0) openTabs.push(path);
+  selectedPath = path;
+  setActive(path);
+  renderTree();
+  updateToolbarState();
+  persistSoon();
+}
+
+/* =========================================================================
+   EDITOR
+   ========================================================================= */
+let viewerUrls = [];
+
+function releaseViewerUrls() {
+  for (let i = 0; i < viewerUrls.length; i++) {
+    try { URL.revokeObjectURL(viewerUrls[i]); } catch(e) {}
+  }
+  viewerUrls = [];
+}
+
+function clearEditor() {
+  activePath = null;
+  currentTextPath = null;
+  ta.value = '';
+  hlPre.textContent = '';
+  gutterInner.textContent = '';
+  viewerEl.classList.remove('show');
+  viewerEl.innerHTML = '';
+  viewer3dEl.classList.remove('show');
+  $('#emptyState').style.display = 'flex';
+  $('#pathLabel').textContent = 'no file open';
+  $('#statusPos').textContent = 'Ln 1, Col 1';
+  $('#statusSize').textContent = '0 B';
+  $('#statusLang').textContent = '—';
+  renderTabs();
+}
+
+function setActive(path) {
+  const n = nodes.get(path);
+  if (!n || n.type !== 'file') { clearEditor(); return; }
+  activePath = path;
+  selectedPath = path;
+  $('#pathLabel').textContent = path;
+  $('#statusLang').textContent = LANG_NAME[extOf(path)] || (n.binary ? 'Binary' : 'Plain text');
+  updateStatusSize();
+  renderTabs();
+  renderTree();
+  updateToolbarState();
+
+  if (n.binary) {
+    if (MODEL_EXT.has(extOf(path))) {
+      show3DViewer(n);
+    } else {
+      showViewer(n);
+    }
+    return;
+  }
+  hideViewer();
+  hide3DViewer();
+  $('#emptyState').style.display = 'none';
+  if (currentTextPath !== path) {
+    currentTextPath = path;
+    ta.value = n.content || '';
+    ta.scrollTop = 0; ta.scrollLeft = 0;
+    computeLineCount();
+    updateGutter(true);
+    updateHighlight(true);
+  }
+  applySettings();
+  syncScroll();
+}
+
+function hideViewer() {
+  if (viewerEl.classList.contains('show')) {
+    viewerEl.classList.remove('show');
+    viewerEl.innerHTML = '';
+    releaseViewerUrls();
+  }
+  gutter.style.display = settings.lineNumbers ? '' : 'none';
+  editorBody.style.display = '';
+}
+
+function hide3DViewer() {
+  if (viewer3dEl.classList.contains('show')) {
+    viewer3dEl.classList.remove('show');
+    dispose3D();
+  }
+  gutter.style.display = settings.lineNumbers ? '' : 'none';
+  editorBody.style.display = '';
+}
+
+function showViewer(n) {
+  releaseViewerUrls();
+  const e = extOf(n.path);
+  const url = URL.createObjectURL(new Blob([n.data], { type: mimeOf(n.path) }));
+  viewerUrls.push(url);
+  let html = '';
+  if (IMAGE_EXT.has(e)) {
+    html = '<img src="' + url + '" alt="">';
+  } else if (AUDIO_EXT.has(e)) {
+    html = '<audio controls src="' + url + '"></audio>';
+  } else if (VIDEO_EXT.has(e)) {
+    html = '<video controls src="' + url + '"></video>';
+  } else {
+    let desc = '';
+    if (FONT_EXT.has(e)) desc = 'Web font file. Use it with an <code>@font-face</code> rule.';
+    else if (e === 'zip') desc = 'ZIP archive.';
+    else if (e === 'wasm') desc = 'WebAssembly module.';
+    else if (e === 'pdf') desc = 'PDF document.';
+    else desc = 'Binary asset available for use in your project.';
+    html = '<div class="asset-card">' +
+      '<div class="big">' + ico(FONT_EXT.has(e) ? 'layers' : 'box', 24) + '</div>' +
+      '<h3>' + esc(n.name) + '</h3>' +
+      '<p>' + desc + '</p>' +
+      '<p style="margin-top:10px">' + fmtBytes(n.data.length) + ' · ' + esc(mimeOf(n.path)) + '</p>' +
+      '</div>';
+  }
+  viewerEl.innerHTML = html;
+  viewerEl.classList.add('show');
+  gutter.style.display = 'none';
+  editorBody.style.display = 'none';
+  $('#emptyState').style.display = 'none';
+}
+
+/* =========================================================================
+   3D VIEWER
+   ========================================================================= */
+let scene3d = null, camera3d = null, renderer3d = null, controls3d = null;
+let animFrame3d = null;
+let currentModel3d = null;
+let modelUrl3d = null;
+
+function dispose3D() {
+  if (animFrame3d) { cancelAnimationFrame(animFrame3d); animFrame3d = null; }
+  if (currentModel3d) {
+    scene3d.remove(currentModel3d);
+    currentModel3d.traverse(function(o) {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) {
+        if (Array.isArray(o.material)) o.material.forEach(function(m) { m.dispose(); });
+        else o.material.dispose();
+      }
+    });
+    currentModel3d = null;
+  }
+  if (renderer3d) { renderer3d.dispose(); renderer3d = null; }
+  if (modelUrl3d) { URL.revokeObjectURL(modelUrl3d); modelUrl3d = null; }
+  scene3d = null; camera3d = null; controls3d = null;
+}
+
+function show3DViewer(n) {
+  hideViewer();
+  releaseViewerUrls();
+  viewerEl.classList.remove('show');
+  viewerEl.innerHTML = '';
+  viewer3dEl.classList.add('show');
+  gutter.style.display = 'none';
+  editorBody.style.display = 'none';
+  $('#emptyState').style.display = 'none';
+  $('#viewer3dTitle').textContent = n.name;
+  viewer3dLoading.textContent = 'Loading model…';
+  viewer3dLoading.style.display = 'flex';
+
+  // Dispose old
+  dispose3D();
+
+  // Create scene
+  scene3d = new THREE.Scene();
+  const bg = settings.modelBg === 'light' ? 0xf0f0f0 : (settings.modelBg === 'dark' ? 0x000000 : null);
+  if (bg !== null) scene3d.background = new THREE.Color(bg);
+  else {
+    // Grid background
+    const grid = new THREE.GridHelper(100, 50, 0x333333, 0x222222);
+    scene3d.add(grid);
+  }
+
+  const w = viewer3dEl.clientWidth || 400;
+  const h = viewer3dEl.clientHeight || 400;
+
+  camera3d = new THREE.PerspectiveCamera(45, w / h, 0.01, 10000);
+  camera3d.position.set(3, 3, 5);
+
+  renderer3d = new THREE.WebGLRenderer({ canvas: viewer3dCanvas, antialias: true, alpha: true });
+  renderer3d.setSize(w, h);
+  renderer3d.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer3d.outputColorSpace = THREE.SRGBColorSpace;
+
+  // Lighting
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  scene3d.add(ambient);
+  const dir1 = new THREE.DirectionalLight(0xffffff, 1.2);
+  dir1.position.set(5, 10, 7);
+  scene3d.add(dir1);
+  const dir2 = new THREE.DirectionalLight(0xffffff, 0.4);
+  dir2.position.set(-5, -5, -5);
+  scene3d.add(dir2);
+
+  // Controls
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    controls3d = new THREE.OrbitControls(camera3d, renderer3d.domElement);
+    controls3d.enableDamping = true;
+    controls3d.dampingFactor = 0.08;
+    controls3d.autoRotate = settings.modelAutoRotate;
+    controls3d.autoRotateSpeed = 1.2;
+  }
+
+  // Load model
+  const ext = extOf(n.path);
+  const blob = new Blob([n.data], { type: mimeOf(n.path) });
+  modelUrl3d = URL.createObjectURL(blob);
+
+  const loader = new THREE.GLTFLoader();
+  loader.load(modelUrl3d, function(gltf) {
+    currentModel3d = gltf.scene;
+    scene3d.add(currentModel3d);
+
+    // Center and scale
+    const box = new THREE.Box3().setFromObject(currentModel3d);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2 / maxDim;
+    currentModel3d.position.sub(center);
+    currentModel3d.scale.setScalar(scale);
+
+    // Reposition camera
+    const newBox = new THREE.Box3().setFromObject(currentModel3d);
+    const newSize = newBox.getSize(new THREE.Vector3());
+    const dist = Math.max(newSize.x, newSize.y, newSize.z) * 1.8;
+    camera3d.position.set(dist * 0.7, dist * 0.5, dist);
+    camera3d.lookAt(0, 0, 0);
+    if (controls3d) { controls3d.target.set(0, 0, 0); controls3d.update(); }
+
+    viewer3dLoading.style.display = 'none';
+    animate3D();
+  }, function(xhr) {
+    if (xhr.total) {
+      viewer3dLoading.textContent = 'Loading… ' + Math.round(xhr.loaded / xhr.total * 100) + '%';
+    }
+  }, function(err) {
+    viewer3dLoading.textContent = 'Failed to load model';
+    addLog('error', '3D load error: ' + (err.message || err));
+  });
+}
+
+function animate3D() {
+  animFrame3d = requestAnimationFrame(animate3D);
+  if (controls3d) controls3d.update();
+  if (renderer3d && scene3d && camera3d) {
+    renderer3d.render(scene3d, camera3d);
+  }
+}
+
+$('#btn3dReset').addEventListener('click', function() {
+  if (camera3d && currentModel3d) {
+    const box = new THREE.Box3().setFromObject(currentModel3d);
+    const size = box.getSize(new THREE.Vector3());
+    const dist = Math.max(size.x, size.y, size.z) * 1.8;
+    camera3d.position.set(dist * 0.7, dist * 0.5, dist);
+    camera3d.lookAt(0, 0, 0);
+    if (controls3d) { controls3d.target.set(0, 0, 0); controls3d.update(); }
+  }
+});
+
+$('#btn3dClose').addEventListener('click', function() {
+  hide3DViewer();
+  if (activePath) setActive(activePath);
+});
+
+/* =========================================================================
+   LINE NUMBERS
+   ========================================================================= */
+function computeLineCount() {
+  const v = ta.value;
+  let c = 1, i = -1;
+  while ((i = v.indexOf('\n', i + 1)) !== -1) c++;
+  lineCount = c;
+}
+
+let gutterScheduled = false;
+function scheduleGutter() {
+  if (gutterScheduled) return;
+  gutterScheduled = true;
+  requestAnimationFrame(function() { gutterScheduled = false; updateGutter(); });
+}
+
+function updateGutter() {
+  if (!settings.lineNumbers) { gutterInner.textContent = ''; return; }
+  const lh = 20;
+  const st = ta.scrollTop;
+  const h = editorBody.clientHeight || 400;
+  const first = Math.max(0, Math.floor(st / lh) - 1);
+  const visible = Math.ceil(h / lh) + 3;
+  const last = Math.min(lineCount, first + visible);
+  let s = '';
+  for (let i = first; i < last; i++) s += (i + 1) + '\n';
+  gutterInner.textContent = s;
+  gutterInner.style.transform = 'translateY(' + (first * lh - st) + 'px)';
+}
+
+/* =========================================================================
+   SYNTAX HIGHLIGHTING
+   ========================================================================= */
+const HL_LIMIT = 150000;
+
+function highlight(code, ext) {
+  let out = '', last = 0, m;
+  let re;
+  if (ext === 'css' || ext === 'scss' || ext === 'less' || ext === 'sass') {
+    re = /(\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(@[\w-]+|#[0-9a-fA-F]{3,8}\b)|([a-zA-Z-]+)(?=\s*:)|(\b\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms|deg|fr)?\b)/g;
+  } else if (ext === 'html' || ext === 'htm' || ext === 'xhtml' || ext === 'xml' || ext === 'svg' || ext === 'vue') {
+    re = /(<!--[\s\S]*?-->)|(<\/?[a-zA-Z][\w:-]*)|("[^"]*"|'[^']*')|([a-zA-Z-][\w:-]*)(?==)|(>)/g;
+  } else {
+    re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|(\b0[xX][0-9a-fA-F]+\b|\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)|(\b(?:const|let|var|function|return|if|else|for|while|do|switch|case|default|break|continue|new|class|extends|super|this|typeof|instanceof|in|of|try|catch|finally|throw|async|await|yield|import|export|from|as|null|undefined|true|false|void|delete|static|get|set|enum|interface|type|implements|public|private|protected|readonly|namespace|declare|abstract)\b)/g;
+  }
+  while ((m = re.exec(code)) !== null) {
+    out += esc(code.slice(last, m.index));
+    let cls = 'p';
+    if (m[1] != null) cls = 'c';
+    else if (m[2] != null) cls = (ext === 'html' || ext === 'xml' || ext === 'svg') ? 't' : 's';
+    else if (m[3] != null) cls = 'n';
+    else if (m[4] != null) cls = 'k';
+    else if (m[5] != null) cls = 'p';
+    if (ext === 'css' || ext === 'scss' || ext === 'less') {
+      if (m[1] != null) cls = 'c';
+      else if (m[2] != null) cls = 's';
+      else if (m[3] != null) cls = 'k';
+      else if (m[4] != null) cls = 't';
+      else if (m[5] != null) cls = 'n';
+    }
+    out += '<span class="' + cls + '">' + esc(m[0]) + '</span>';
+    last = m.index + m[0].length;
+  }
+  out += esc(code.slice(last));
+  return out + '\n';
+}
+
+let hlScheduled = false;
+function scheduleHighlight() {
+  if (hlScheduled) return;
+  hlScheduled = true;
+  requestAnimationFrame(function() { hlScheduled = false; updateHighlight(); });
+}
+
+function updateHighlight() {
+  if (!activePath || !settings.highlight) {
+    editorBody.classList.add('no-hl');
+    hlPre.textContent = '';
+    return;
+  }
+  const v = ta.value;
+  if (v.length > HL_LIMIT) {
+    editorBody.classList.add('no-hl');
+    hlPre.textContent = '';
+    return;
+  }
+  editorBody.classList.remove('no-hl');
+  hlPre.innerHTML = highlight(v, extOf(activePath));
+  hlPre.scrollTop = ta.scrollTop;
+  hlPre.scrollLeft = ta.scrollLeft;
+}
+
+function syncScroll() {
+  const st = ta.scrollTop, sl = ta.scrollLeft;
+  if (!editorBody.classList.contains('no-hl')) {
+    hlPre.scrollTop = st;
+    hlPre.scrollLeft = sl;
+  }
+  scheduleGutter();
+}
+
+ta.addEventListener('scroll', syncScroll, { passive: true });
+
+/* =========================================================================
+   INPUT HANDLING
+   ========================================================================= */
+let decorTimer = null;
+ta.addEventListener('input', function() {
+  if (!activePath) return;
+  const n = nodes.get(activePath);
+  if (!n || n.binary) return;
+  n.content = ta.value;
+  updateStatusSize();
+  markDirty(true);
+  if (decorTimer) clearTimeout(decorTimer);
+  decorTimer = setTimeout(function() {
+    computeLineCount();
+    updateGutter();
+    updateHighlight();
+    scheduleGutter();
+  }, 130);
+  persistSoon();
+  schedulePreviewRefresh();
+});
+
+function updateCursorStatus() {
+  if (!activePath) { $('#statusPos').textContent = 'Ln 1, Col 1'; return; }
+  const pos = ta.selectionStart;
+  const before = ta.value.slice(0, pos);
+  const line = (before.match(/\n/g) || []).length + 1;
+  const lineStart = before.lastIndexOf('\n') + 1;
+  const col = pos - lineStart + 1;
+  $('#statusPos').textContent = 'Ln ' + line + ', Col ' + col;
+}
+ta.addEventListener('keyup', updateCursorStatus);
+ta.addEventListener('click', updateCursorStatus);
+ta.addEventListener('input', updateCursorStatus);
+
+function updateStatusSize() {
+  if (!activePath) { $('#statusSize').textContent = '0 B'; return; }
+  const n = nodes.get(activePath);
+  if (!n) { $('#statusSize').textContent = '0 B'; return; }
+  $('#statusSize').textContent = n.binary ? fmtBytes(n.data.length) : fmtBytes(ta.value.length);
+}
+
+function markDirty(d) {
+  savePending = d;
+  const el = $('#statusSave');
+  el.textContent = d ? 'Unsaved' : 'Saved';
+  el.classList.toggle('dirty', d);
+}
+
+window.addEventListener('resize', function() {
+  syncScroll();
+  if (renderer3d && camera3d && viewer3dEl.classList.contains('show')) {
+    const w = viewer3dEl.clientWidth || 400;
+    const h = viewer3dEl.clientHeight || 400;
+    camera3d.aspect = w / h;
+    camera3d.updateProjectionMatrix();
+    renderer3d.setSize(w, h);
+  }
+});
+
+/* =========================================================================
+   EDITOR ACTIONS
+   ========================================================================= */
+$('#btnSelectAll').addEventListener('click', function() {
+  if (!activePath || nodes.get(activePath).binary) return;
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0, ta.value.length);
+  toast('Selected ' + ta.value.length + ' characters');
+});
+
+$('#btnCopySel').addEventListener('click', async function() {
+  if (!activePath || nodes.get(activePath).binary) return;
+  const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd);
+  const text = sel.length ? sel : ta.value;
+  const ok = await copyText(text);
+  toast(ok ? 'Copied ' + text.length + ' characters' : 'Copy failed', ok ? 'ok' : 'err');
+});
+
+$('#btnPaste').addEventListener('click', async function() {
+  if (!activePath || nodes.get(activePath).binary) return;
+  try {
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      const t = await navigator.clipboard.readText();
+      if (t) { insertAtCursor(t); toast('Pasted ' + t.length + ' characters', 'ok'); return; }
+    }
+    throw new Error('no clipboard');
+  } catch(e) {
+    ta.focus();
+    toast('Long-press in the editor and choose Paste', 'warn');
+  }
+});
+
+$('#btnWrap').addEventListener('click', function() {
+  settings.wordWrap = !settings.wordWrap;
+  applySettings();
+  toast(settings.wordWrap ? 'Word wrap on' : 'Word wrap off');
+});
+
+function insertAtCursor(text) {
+  const s = ta.selectionStart, e = ta.selectionEnd, v = ta.value;
+  ta.value = v.slice(0, s) + text + v.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + text.length;
+  ta.dispatchEvent(new Event('input'));
+}
+
+/* =========================================================================
+   FORMATTER
+   ========================================================================= */
+function formatBraces(src) {
+  const IND = '  ';
+  let out = '', indent = 0, paren = 0, pending = false, i = 0;
+  const n = src.length;
+  function nl() {
+    out = out.replace(/[ \t]+$/, '');
+    if (out.length && !out.endsWith('\n')) out += '\n';
+    pending = true;
+  }
+  function w(s) {
+    if (pending) { out += IND.repeat(Math.max(0, indent)); pending = false; }
+    out += s;
+  }
+  while (i < n) {
+    const c = src[i];
+    if (c === '"' || c === "'" || c === '`') {
+      let j = i + 1;
+      while (j < n) {
+        if (src[j] === '\\') { j += 2; continue; }
+        if (src[j] === c) { j++; break; }
+        j++;
+      }
+      w(src.slice(i, j)); i = j; continue;
+    }
+    if (c === '/' && src[i+1] === '/') {
+      let j = src.indexOf('\n', i); if (j < 0) j = n;
+      w(src.slice(i, j)); i = j; continue;
+    }
+    if (c === '/' && src[i+1] === '*') {
+      let j = src.indexOf('*/', i + 2); j = j < 0 ? n : j + 2;
+      w(src.slice(i, j)); i = j; continue;
+    }
+    if (c === ' ' || c === '\t') {
+      if (!pending && out.length && !/\s$/.test(out)) w(' ');
+      i++; continue;
+    }
+    if (c === '\n' || c === '\r') { i++; nl(); continue; }
+    if (c === '{') { w('{'); indent++; nl(); i++; continue; }
+    if (c === '}') {
+      indent = Math.max(0, indent - 1);
+      nl(); w('}'); i++; continue;
+    }
+    if (c === ';') { w(';'); if (paren === 0) nl(); i++; continue; }
+    if (c === '(' || c === '[') { paren++; w(c); i++; continue; }
+    if (c === ')' || c === ']') { paren = Math.max(0, paren - 1); w(c); i++; continue; }
+    if (c === ',') { w(','); if (paren === 0) w(' '); i++; continue; }
+    w(c); i++;
+  }
+  return out.split('\n').map(function(l) { return l.replace(/[ \t]+$/, ''); })
+    .join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+const VOID_TAGS = /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr|!doctype)$/i;
+
+function formatMarkup(src) {
+  const IND = '  ';
+  const lines = src.split('\n');
+  let indent = 0;
+  const out = [];
+  for (let k = 0; k < lines.length; k++) {
+    const line = lines[k].trim();
+    if (!line) continue;
+    const leadingClose = /^<\//.test(line) ? 1 : 0;
+    if (leadingClose) indent = Math.max(0, indent - 1);
+    const tags = line.match(/<[^>]*>/g) || [];
+    let open = 0, close = 0;
+    for (let t = 0; t < tags.length; t++) {
+      const tag = tags[t];
+      if (/^<\//.test(tag)) close++;
+      else if (/\/>$/.test(tag)) { /* self closing */ }
+      else if (/^<[a-zA-Z]/.test(tag)) {
+        const name = (tag.match(/^<([a-zA-Z][\w:-]*)/) || [])[1] || '';
+        if (!VOID_TAGS.test(name)) open++;
+      }
+    }
+    out.push(IND.repeat(Math.max(0, indent)) + line);
+    indent = Math.max(0, indent + open - (close - leadingClose));
+  }
+  return out.join('\n');
+}
+
+function formatCode(code, ext) {
+  if (ext === 'json') {
+    try { return JSON.stringify(JSON.parse(code), null, 2); } catch(e) {}
+  }
+  if (ext === 'html' || ext === 'htm' || ext === 'xhtml' || ext === 'xml' || ext === 'svg' || ext === 'vue') {
+    return formatMarkup(code);
+  }
+  return formatBraces(code);
+}
+
+function runFormat() {
+  if (!activePath) { toast('No file open', 'warn'); return; }
+  const n = nodes.get(activePath);
+  if (!n || n.binary) { toast('Cannot format binary files', 'warn'); return; }
+  if (ta.value.length > 3000000) { toast('File too large to format safely', 'warn'); return; }
+  const before = ta.value;
+  let after;
+  try { after = formatCode(before, extOf(activePath)); }
+  catch(e) { toast('Format failed: ' + e.message, 'err'); addLog('error', 'Format failed: ' + e.message); return; }
+  if (after === before) { toast('Already formatted'); return; }
+  ta.value = after;
+  n.content = after;
+  computeLineCount();
+  updateGutter();
+  updateHighlight();
+  ta.dispatchEvent(new Event('input'));
+  toast('Formatted ' + activePath, 'ok');
+}
+
+$('#btnFormat').addEventListener('click', runFormat);
+
+/* =========================================================================
+   ZIP (Writer + Reader)
+   ========================================================================= */
+const CRC_TABLE = (function() {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+
+function crc32(buf) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < buf.length; i++) c = CRC_TABLE[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+
+function zipCreate(entries) {
+  const chunks = [];
+  const central = [];
+  let offset = 0;
+  for (let i = 0; i < entries.length; i++) {
+    const e = entries[i];
+    const nameBytes = enc.encode(e.name);
+    const data = e.data;
+    const crc = crc32(data);
+    const size = data.length;
+    const local = new Uint8Array(30 + nameBytes.length);
+    const dv = new DataView(local.buffer);
+    dv.setUint32(0, 0x04034b50, true);
+    dv.setUint16(4, 20, true);
+    dv.setUint16(6, 0x0800, true);
+    dv.setUint16(8, 0, true);
+    dv.setUint16(10, 0, true);
+    dv.setUint16(12, 0x21, true);
+    dv.setUint32(14, crc, true);
+    dv.setUint32(18, size, true);
+    dv.setUint32(22, size, true);
+    dv.setUint16(26, nameBytes.length, true);
+    dv.setUint16(28, 0, true);
+    local.set(nameBytes, 30);
+    chunks.push(local, data);
+
+    const cd = new Uint8Array(46 + nameBytes.length);
+    const cdv = new DataView(cd.buffer);
+    cdv.setUint32(0, 0x02014b50, true);
+    cdv.setUint16(4, 20, true);
+    cdv.setUint16(6, 20, true);
+    cdv.setUint16(8, 0x0800, true);
+    cdv.setUint16(10, 0, true);
+    cdv.setUint16(12, 0, true);
+    cdv.setUint16(14, 0x21, true);
+    cdv.setUint32(16, crc, true);
+    cdv.setUint32(20, size, true);
+    cdv.setUint32(24, size, true);
+    cdv.setUint16(28, nameBytes.length, true);
+    cdv.setUint16(30, 0, true);
+    cdv.setUint16(32, 0, true);
+    cdv.setUint16(34, 0, true);
+    cdv.setUint16(36, 0, true);
+    cdv.setUint32(38, 0, true);
+    cdv.setUint32(42, offset, true);
+    cd.set(nameBytes, 46);
+    central.push(cd);
+
+    offset += local.length + size;
+  }
+  let cdSize = 0;
+  for (let i = 0; i < central.length; i++) cdSize += central[i].length;
+  const eocd = new Uint8Array(22);
+  const edv = new DataView(eocd.buffer);
+  edv.setUint32(0, 0x06054b50, true);
+  edv.setUint16(4, 0, true);
+  edv.setUint16(6, 0, true);
+  edv.setUint16(8, entries.length, true);
+  edv.setUint16(10, entries.length, true);
+  edv.setUint32(12, cdSize, true);
+  edv.setUint32(16, offset, true);
+  edv.setUint16(20, 0, true);
+  return new Blob(chunks.concat(central, [eocd]), { type: 'application/zip' });
+}
+
+async function zipRead(arrayBuffer) {
+  const u8 = new Uint8Array(arrayBuffer);
+  const dv = new DataView(arrayBuffer);
+  let eocd = -1;
+  const minStart = Math.max(0, u8.length - 66000);
+  for (let i = u8.length - 22; i >= minStart; i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error('Not a valid ZIP archive');
+  const count = dv.getUint16(eocd + 10, true);
+  const cdOff = dv.getUint32(eocd + 16, true);
+  const out = [];
+  let p = cdOff;
+  for (let i = 0; i < count; i++) {
+    if (p + 46 > u8.length) break;
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const method = dv.getUint16(p + 10, true);
+    const csize = dv.getUint32(p + 20, true);
+    const nlen = dv.getUint16(p + 28, true);
+    const elen = dv.getUint16(p + 30, true);
+    const clen = dv.getUint16(p + 32, true);
+    const lho = dv.getUint32(p + 42, true);
+    let name = dec.decode(u8.subarray(p + 46, p + 46 + nlen));
+    const lnlen = dv.getUint16(lho + 26, true);
+    const lelen = dv.getUint16(lho + 28, true);
+    const dataStart = lho + 30 + lnlen + lelen;
+    const raw = u8.subarray(dataStart, dataStart + csize);
+    if (!/\/$/.test(name)) {
+      let data;
+      if (method === 0) {
+        data = new Uint8Array(raw);
+      } else if (method === 8) {
+        if (typeof DecompressionStream === 'undefined') {
+          throw new Error('This device cannot decompress DEFLATE ZIP entries');
+        }
+        const ds = new DecompressionStream('deflate-raw');
+        const stream = new Blob([raw]).stream().pipeThrough(ds);
+        const buf = await new Response(stream).arrayBuffer();
+        data = new Uint8Array(buf);
+      } else { continue; }
+      out.push({ name: name, data: data });
+    }
+    p += 46 + nlen + elen + clen;
+  }
+  return out;
+}
+
+/* =========================================================================
+   PREVIEW BUILDER
+   ========================================================================= */
+let buildUrls = [];
+const urlCache = { blob: new Map(), data: new Map() };
+
+function resetBuild() {
+  for (let i = 0; i < buildUrls.length; i++) {
+    try { URL.revokeObjectURL(buildUrls[i]); } catch(e) {}
+  }
+  buildUrls = [];
+  urlCache.blob.clear();
+  urlCache.data.clear();
+}
+
+function resolvePath(base, rel) {
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(rel)) return null;
+  if (rel.startsWith('//')) return null;
+  if (rel.startsWith('#')) return null;
+  let clean = rel.split('?')[0].split('#')[0];
+  if (!clean) return null;
+  let parts = clean.startsWith('/') ? [] : (base ? base.split('/').filter(Boolean) : []);
+  const segs = clean.split('/');
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i];
+    if (!s || s === '.') continue;
+    if (s === '..') parts.pop();
+    else parts.push(s);
+  }
+  return parts.join('/');
+}
+
+function bytesOf(node) {
+  if (node.binary) return node.data;
+  return enc.encode(node.content || '');
+}
+
+function toDataUrl(mime, bytes) {
+  let bin = '';
+  const CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + CH, bytes.length)));
+  }
+  return 'data:' + mime + ';base64,' + btoa(bin);
+}
+
+function makeUrl(path, stack, mode) {
+  const cache = urlCache[mode];
+  if (cache.has(path)) return cache.get(path);
+  const node = nodes.get(path);
+  if (!node || node.type !== 'file') return null;
+  if (stack.indexOf(path) >= 0) return null;
+
+  const nextStack = stack.concat([path]);
+  const ext = extOf(path);
+  let bytes;
+  if (node.binary) {
+    bytes = node.data;
+  } else {
+    let text = node.content || '';
+    const dir = dirOf(path);
+    if (ext === 'js' || ext === 'mjs' || ext === 'cjs' || ext === 'jsx') {
+      text = rewriteJS(text, dir, nextStack, mode);
+    } else if (ext === 'css' || ext === 'scss' || ext === 'less') {
+      text = rewriteCSS(text, dir, nextStack, mode);
+    } else if (ext === 'html' || ext === 'htm' || ext === 'xhtml') {
+      text = rewriteHTML(text, dir, nextStack, mode);
+    }
+    bytes = enc.encode(text);
+  }
+
+  let url;
+  if (mode === 'data') {
+    url = toDataUrl(mimeOf(path), bytes);
+  } else {
+    url = URL.createObjectURL(new Blob([bytes], { type: mimeOf(path) }));
+    buildUrls.push(url);
+  }
+  cache.set(path, url);
+  return url;
+}
+
+function rewriteJS(js, dir, stack, mode) {
+  return js.replace(/(\bimport\s*\(\s*|\bfrom\s+|\bimport\s+)(["'])([^"'\n]+)\2/g, function(m, pre, q, spec) {
+    if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(spec) || spec.startsWith('//')) return m;
+    const rp = resolvePath(dir, spec);
+    if (!rp || !nodes.has(rp)) return m;
+    const u = makeUrl(rp, stack, mode);
+    if (!u) return m;
+    return pre + q + u + q;
+  });
+}
+
+function rewriteCSS(css, dir, stack, mode) {
+  css = css.replace(/@import\s+(?:url\(\s*)?(['"])([^'"]+)\1\s*\)?\s*;/g, function(m, q, u) {
+    const rp = resolvePath(dir, u);
+    if (!rp || !nodes.has(rp)) return m;
+    const url = makeUrl(rp, stack, mode);
+    return url ? '@import url(' + q + url + q + ');' : m;
+  });
+  return css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g, function(m, q, u) {
+    if (/^(data:|https?:|blob:|#|\/\/)/.test(u)) return m;
+    const rp = resolvePath(dir, u);
+    if (!rp || !nodes.has(rp)) return m;
+    const url = makeUrl(rp, stack, mode);
+    return url ? 'url(' + q + url + q + ')' : m;
+  });
+}
+
+function rewriteHTML(html, dir, stack, mode) {
+  html = html.replace(/(\s(?:src|href|poster|data-src)\s*=\s*)(["'])([^"']+)\2/gi, function(m, pre, q, u) {
+    if (/^(data:|https?:|blob:|mailto:|tel:|#|\/\/|javascript:)/i.test(u)) return m;
+    const rp = resolvePath(dir, u);
+    if (!rp || !nodes.has(rp)) return m;
+    const url = makeUrl(rp, stack, mode);
+    return url ? pre + q + url + q : m;
+  });
+  html = html.replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/gi, function(m, a, css, b) {
+    return a + rewriteCSS(css, dir, stack, mode) + b;
+  });
+  html = html.replace(/(<script(?![^>]*\ssrc=)[^>]*>)([\s\S]*?)(<\/script>)/gi, function(m, a, js, b) {
+    return a + rewriteJS(js, dir, stack, mode) + b;
+  });
+  return html;
+}
+
+/* =========================================================================
+   PREVIEW RUNTIME (injected into preview)
+   ========================================================================= */
+function previewRuntime() {
+  function ser(v, depth, seen) {
+    seen = seen || [];
+    depth = depth || 0;
+    if (v === null) return 'null';
+    if (v === undefined) return 'undefined';
+    var t = typeof v;
+    if (t === 'string') return depth === 0 ? v : JSON.stringify(v);
+    if (t === 'number' || t === 'boolean') return String(v);
+    if (t === 'bigint') return String(v) + 'n';
+    if (t === 'symbol') return v.toString();
+    if (t === 'function') return '\u0192 ' + (v.name || 'anonymous') + '()';
+    if (v instanceof Error) return (v.name || 'Error') + ': ' + v.message + (v.stack ? '\n' + v.stack : '');
+    if (seen.indexOf(v) >= 0) return '[Circular]';
+    if (depth > 4) return '\u2026';
+    var s2 = seen.concat([v]);
+    if (Array.isArray(v)) return '[' + v.map(function(x) { return ser(x, depth + 1, s2); }).join(', ') + ']';
+    if (typeof Node !== 'undefined' && v instanceof Node) return '<' + v.nodeName.toLowerCase() + (v.id ? '#' + v.id : '') + '>';
+    if (typeof Map !== 'undefined' && v instanceof Map) return 'Map(' + v.size + ')';
+    if (typeof Set !== 'undefined' && v instanceof Set) return 'Set(' + v.size + ')';
+    try {
+      return JSON.stringify(v, function(k, val) {
+        if (typeof val === 'function') return '\u0192 ' + (val.name || 'anonymous') + '()';
+        if (val instanceof Error) return val.name + ': ' + val.message;
+        return val;
+      }, 2);
+    } catch (e) { return String(v); }
+  }
+  function post(level, parts, extra) {
+    var text = parts.map(function(p) { return ser(p, 0); }).join(' ');
+    var msg = { __forge: true, level: level, text: text };
+    if (extra) for (var k in extra) msg[k] = extra[k];
+    try { if (window.parent && window.parent !== window) window.parent.postMessage(msg, '*'); } catch(e) {}
+  }
+  ['log','info','warn','error','debug'].forEach(function(m) {
+    var orig = console[m];
+    console[m] = function() {
+      var args = Array.prototype.slice.call(arguments);
+      try { orig.apply(console, args); } catch(e) {}
+      var extra = null;
+      for (var i = 0; i < args.length; i++) {
+        if (args[i] instanceof Error && args[i].stack) { extra = { stack: args[i].stack }; break; }
+      }
+      post(m === 'debug' ? 'log' : m, args, extra);
+    };
+  });
+  window.addEventListener('error', function(e) {
+    var stack = (e.error && e.error.stack) || '';
+    var msg = e.message || 'Unknown error';
+    if (!stack) stack = 'at ' + (e.filename || '<anonymous>') + ':' + (e.lineno || 0) + ':' + (e.colno || 0);
+    else if (e.lineno) stack += '\n    at ' + (e.filename || '<anonymous>') + ':' + e.lineno + ':' + (e.colno || 0);
+    post('error', ['Uncaught ' + msg], { stack: stack, source: e.filename || null, line: e.lineno || null, col: e.colno || null });
+  });
+  window.addEventListener('unhandledrejection', function(e) {
+    var r = e.reason;
+    var msg = (r && r.message) ? r.message : String(r);
+    post('error', ['Unhandled promise rejection: ' + msg], { stack: (r && r.stack) || '' });
+  });
+  window.addEventListener('DOMContentLoaded', function() { post('sys', ['DOM ready'], null); });
+  window.addEventListener('load', function() { post('sys', ['Window loaded'], null); });
+}
+
+const RUNTIME_SRC = '(' + previewRuntime.toString() + ')();';
+
+function injectRuntime(html) {
+  const tag = '<script>' + RUNTIME_SRC + '<\/script>';
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, tag + '</body>');
+  if (/<\/html>/i.test(html)) return html.replace(/<\/html>/i, tag + '</html>');
+  return html + tag;
+}
+
+/* =========================================================================
+   PREVIEW ASSEMBLY
+   ========================================================================= */
+function htmlFiles() {
+  const out = [];
+  nodes.forEach(function(n, p) {
+    if (n.type === 'file' && /\.html?$/i.test(p)) out.push(p);
+  });
+  out.sort();
+  return out;
+}
+
+function resolveEntry() {
+  if (state.entry && nodes.has(state.entry) && nodes.get(state.entry).type === 'file') return state.entry;
+  const htmls = htmlFiles();
+  if (htmls.indexOf('index.html') >= 0) return 'index.html';
+  if (htmls.length) return htmls[0];
+  const all = [];
+  nodes.forEach(function(n, p) { if (n.type === 'file') all.push(p); });
+  all.sort();
+  return all[0] || null;
+}
+
+function buildPreviewHTML(mode) {
+  resetBuild();
+  const entry = resolveEntry();
+  if (!entry) throw new Error('No files in project');
+  const node = nodes.get(entry);
+  const ext = extOf(entry);
+  let html;
+
+  if (ext === 'html' || ext === 'htm' || ext === 'xhtml') {
+    html = node.content || '';
+    html = rewriteHTML(html, dirOf(entry), [entry], mode);
+  } else {
+    const url = makeUrl(entry, [], mode);
+    if (ext === 'css' || ext === 'scss' || ext === 'less') {
+      html = '<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="' + url + '"></head>' +
+        '<body style="font-family:system-ui;padding:24px;color:#d7dde8;background:#0b0e13">' +
+        '<p>Stylesheet loaded.</p></body></html>';
+    } else {
+      html = '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+        '<style>html,body{margin:0;min-height:100%;background:#0b0e13;color:#d7dde8;' +
+        'font-family:system-ui,-apple-system,sans-serif}</style></head><body>' +
+        '<script type="module" src="' + url + '"><\/script></body></html>';
+    }
+  }
+  return injectRuntime(html);
+}
+
+let previewBuildScheduled = null;
+let previewDirty = false;
+
+function schedulePreviewRefresh() {
+  if (!settings.autoRefresh) return;
+  if (settings.previewMode === 'off' || settings.previewMode === 'popup') return;
+  previewDirty = true;
+  if (previewBuildScheduled) clearTimeout(previewBuildScheduled);
+  previewBuildScheduled = setTimeout(function() {
+    previewBuildScheduled = null;
+    refreshInlinePreview();
+  }, 700);
+}
+
+function refreshInlinePreview() {
+  if (settings.previewMode === 'off' || settings.previewMode === 'popup') return;
+  try {
+    const html = buildPreviewHTML('blob');
+    const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    buildUrls.push(url);
+    inlineFrame.src = url;
+    previewDirty = false;
+  } catch(e) {
+    if (!refreshInlinePreview._lastErr || refreshInlinePreview._lastErr !== e.message) {
+      refreshInlinePreview._lastErr = e.message;
+      addLog('error', 'Preview build failed: ' + e.message);
+    }
+  }
+}
+
+function runInline() {
+  try {
+    const html = buildPreviewHTML('blob');
+    const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    buildUrls.push(url);
+    $('#overlayTitle').textContent = resolveEntry() || 'preview';
+    overlay.classList.add('show');
+    frame.src = url;
+    addLog('sys', 'Preview started · entry: ' + (resolveEntry() || ''));
+  } catch(e) {
+    addLog('error', e.message, { stack: e.stack });
+    toast('Preview failed: ' + e.message, 'err');
+  }
+}
+
+function runExternal() {
+  try {
+    const html = buildPreviewHTML('blob');
+    const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    buildUrls.push(url);
+    const w = window.open(url, '_blank');
+    if (!w) { toast('Popup blocked — opening inline preview', 'warn'); runInline(); return; }
+    addLog('sys', 'Opened preview in a new tab');
+  } catch(e) {
+    addLog('error', e.message, { stack: e.stack });
+    toast('Preview failed: ' + e.message, 'err');
+  }
+}
+
+$('#btnRun').addEventListener('click', function() {
+  if (settings.previewMode === 'popup') { runExternal(); return; }
+  if (settings.previewMode === 'off') { settings.previewMode = 'side'; applySettings(); }
+  refreshInlinePreview();
+});
+
+$('#btnOpenTab').addEventListener('click', runExternal);
+$('#btnCloseOverlay').addEventListener('click', function() {
+  overlay.classList.remove('show');
+  frame.src = 'about:blank';
+});
+$('#btnReloadPreview').addEventListener('click', runInline);
+$('#btnExternalFromOverlay').addEventListener('click', runExternal);
+$('#btnPreviewReload').addEventListener('click', refreshInlinePreview);
+$('#btnPreviewPopout').addEventListener('click', runExternal);
+$('#btnPreviewClose').addEventListener('click', function() {
+  settings.previewMode = 'off';
+  applySettings();
+});
+
+window.addEventListener('message', function(e) {
+  const d = e.data;
+  if (!d || !d.__forge) return;
+  const level = d.level === 'sys' ? 'sys' : (d.level || 'log');
+  addLog(level, d.text, d.stack || d.source ? { stack: d.stack, source: d.source, line: d.line, col: d.col } : null);
+});
+
+/* =========================================================================
+   IMPORT
+   ========================================================================= */
+function importFileInto(path, name, bytes) {
+  const full = path ? path + '/' + name : name;
+  const target = nodes.has(full) ? uniquePath(full) : full;
+  const isText = isTextPath(name) && !/\.(glb|zip|wasm|pdf)$/i.test(name);
+  if (isText) {
+    try { writeFile(target, dec.decode(bytes), false); }
+    catch(e) { writeFile(target, bytes, true); }
+  } else {
+    writeFile(target, bytes, true);
+  }
+  // Auto-install fonts
+  const ext = extOf(name);
+  if (FONT_EXT.has(ext)) {
+    installFont(target, bytes);
+  }
+  return target;
+}
+
+function installFont(path, bytes) {
+  if (!('FontFace' in window)) return;
+  const family = 'Forge-' + baseOf(path).replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9-_]/g, '');
+  try {
+    const blob = new Blob([bytes], { type: mimeOf(path) });
+    const url = URL.createObjectURL(blob);
+    const font = new FontFace(family, 'url(' + url + ')');
+    font.load().then(function(loaded) {
+      document.fonts.add(loaded);
+      addLog('sys', 'Font installed: ' + family + ' (' + path + ')');
+      URL.revokeObjectURL(url);
+    }).catch(function(err) {
+      addLog('warn', 'Font load failed: ' + err.message);
+      URL.revokeObjectURL(url);
+    });
+  } catch(e) {
+    addLog('warn', 'Font install error: ' + e.message);
+  }
+}
+
+function currentImportDir() {
+  if (!selectedPath) return '';
+  const n = nodes.get(selectedPath);
+  if (!n) return '';
+  return n.type === 'folder' ? selectedPath : dirOf(selectedPath);
+}
+
+function readFileBytes(file) {
+  return new Promise(function(res, rej) {
+    const fr = new FileReader();
+    fr.onload = function() { res(new Uint8Array(fr.result)); };
+    fr.onerror = function() { rej(fr.error); };
+    fr.readAsArrayBuffer(file);
+  });
+}
+
+async function handleFileList(files, baseDir) {
+  let count = 0;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    if (!f) continue;
+    if (/\.DS_Store$/i.test(f.name)) continue;
+    let rel = (f.webkitRelativePath || f.name).replace(/\\/g, '/');
+    let dir = baseDir;
+    const segs = rel.split('/');
+    const fileName = segs.pop();
+    const sub = segs.join('/');
+    if (sub) dir = dir ? dir + '/' + sub : sub;
+    ensureFolder(dir);
+    const bytes = await readFileBytes(f);
+    importFileInto(dir, fileName, bytes);
+    count++;
+  }
+  return count;
+}
+
+async function handleZipFile(file) {
+  const buf = await file.arrayBuffer();
+  const entries = await zipRead(buf);
+  if (!entries.length) throw new Error('ZIP contains no files');
+
+  let rootPrefix = '';
+  const first = entries[0].name;
+  const slash = first.indexOf('/');
+  if (slash > 0) {
+    const cand = first.slice(0, slash + 1);
+    let all = true;
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].name.indexOf(cand) !== 0) { all = false; break; }
+    }
+    if (all) rootPrefix = cand;
+  }
+
+  const base = currentImportDir();
+  let placed = 0;
+  for (let i = 0; i < entries.length; i++) {
+    const e = entries[i];
+    let name = e.name.replace(/\\/g, '/');
+    if (name.indexOf('__MACOSX/') === 0) continue;
+    if (/\.DS_Store$/i.test(name)) continue;
+    if (rootPrefix && name.indexOf(rootPrefix) === 0) name = name.slice(rootPrefix.length);
+    if (!name) continue;
+    const segs = name.split('/');
+    const fileName = segs.pop();
+    const sub = segs.join('/');
+    let dir = base;
+    if (sub) dir = dir ? dir + '/' + sub : sub;
+    ensureFolder(dir);
+    importFileInto(dir, fileName, e.data);
+    placed++;
+  }
+  return placed;
+}
+
+$('#fileInput').addEventListener('change', async function(e) {
+  const files = Array.from(e.target.files || []);
+  e.target.value = '';
+  if (!files.length) return;
+  try {
+    const n = await handleFileList(files, currentImportDir());
+    renderTree(); populateEntrySelect(); persistSoon();
+    addLog('sys', 'Imported ' + n + ' file(s)');
+    toast('Imported ' + n + ' file(s)', 'ok');
+  } catch(err) {
+    addLog('error', 'Import failed: ' + err.message);
+    toast('Import failed', 'err');
+  }
+});
+
+$('#folderInput').addEventListener('change', async function(e) {
+  const files = Array.from(e.target.files || []);
+  e.target.value = '';
+  if (!files.length) return;
+  try {
+    const n = await handleFileList(files, currentImportDir());
+    renderTree(); populateEntrySelect(); persistSoon();
+    addLog('sys', 'Imported folder with ' + n + ' file(s)');
+    toast('Imported ' + n + ' file(s)', 'ok');
+  } catch(err) {
+    addLog('error', 'Import failed: ' + err.message);
+    toast('Import failed', 'err');
+  }
+});
+
+$('#zipInput').addEventListener('change', async function(e) {
+  const file = (e.target.files || [])[0];
+  e.target.value = '';
+  if (!file) return;
+  await doZipImport(file);
+});
+
+async function doZipImport(file) {
+  toast('Extracting ' + file.name + '…');
+  try {
+    const n = await handleZipFile(file);
+    renderTree(); populateEntrySelect(); persistSoon();
+    addLog('sys', 'Extracted ZIP: ' + n + ' file(s) placed');
+    toast('Extracted ' + n + ' files', 'ok');
+  } catch(err) {
+    addLog('error', 'ZIP import failed: ' + err.message, { stack: err.stack });
+    toast('ZIP import failed', 'err');
+  }
+}
+
+/* =========================================================================
+   EXPORT
+   ========================================================================= */
+function projectEntries() {
+  const list = [];
+  nodes.forEach(function(n) {
+    if (n.type === 'file') list.push(n);
+  });
+  list.sort(function(a, b) { return a.path.localeCompare(b.path); });
+  return list.map(function(n) { return { name: n.path, data: bytesOf(n) }; });
+}
+
+function exportZip() {
+  if (!nodes.size) { toast('Nothing to export', 'warn'); return; }
+  const entries = projectEntries();
+  const blob = zipCreate(entries);
+  download(blob, 'forge-project.zip');
+  addLog('sys', 'Exported ZIP with ' + entries.length + ' file(s)');
+  toast('Exported project.zip', 'ok');
+}
+
+function exportStandaloneHTML() {
+  try {
+    const html = buildPreviewHTML('data');
+    const name = (resolveEntry() || 'index').replace(/\.html?$/i, '') + '.standalone.html';
+    download(new Blob([html], { type: 'text/html' }), name);
+    addLog('sys', 'Exported standalone HTML bundle');
+    toast('Exported standalone HTML', 'ok');
+  } catch(e) {
+    toast('Export failed: ' + e.message, 'err');
+    addLog('error', 'Standalone export failed: ' + e.message);
+  }
+}
+
+function exportJSON() {
+  const obj = { version: 1, entry: state.entry, files: [] };
+  nodes.forEach(function(n) {
+    if (n.type === 'folder') obj.files.push({ path: n.path, type: 'folder' });
+    else if (n.binary) obj.files.push({ path: n.path, type: 'binary', encoding: 'base64', data: toDataUrl('application/octet-stream', n.data).split(',')[1] });
+    else obj.files.push({ path: n.path, type: 'text', data: n.content });
+  });
+  download(new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' }), 'forge-project.json');
+  toast('Exported project.json', 'ok');
+}
+
+function exportSingleFile() {
+  if (!activePath) { toast('No file open', 'warn'); return; }
+  const n = nodes.get(activePath);
+  if (!n) return;
+  download(new Blob([bytesOf(n)], { type: mimeOf(activePath) }), n.name);
+  toast('Saved ' + n.name, 'ok');
+}
+
+function download(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() { a.remove(); URL.revokeObjectURL(url); }, 2000);
+}
+
+/* =========================================================================
+   MENUS
+   ========================================================================= */
+function showMenu(anchor, items) {
+  const m = $('#menu');
+  m.innerHTML = items.map(function(it, i) {
+    return '<button class="mi' + (it.danger ? ' danger' : '') + '" data-i="' + i + '">' +
+      ico(it.icon || 'file', 14) + '<span>' + esc(it.label) + '</span>' +
+      (it.kbd ? '<span class="kbd">' + esc(it.kbd) + '</span>' : '') +
+      '</button>';
+  }).join('');
+  m.classList.add('show');
+  const r = anchor.getBoundingClientRect();
+  const w = 220;
+  let left = Math.min(r.left, window.innerWidth - w - 10);
+  left = Math.max(8, left);
+  let top = r.bottom + 5;
+  const mh = m.offsetHeight;
+  if (top + mh > window.innerHeight - 10) top = Math.max(8, r.top - mh - 5);
+  m.style.left = left + 'px';
+  m.style.top = top + 'px';
+  m.onclick = function(e) {
+    const b = e.target.closest('.mi');
+    if (!b) return;
+    m.classList.remove('show');
+    const it = items[+b.dataset.i];
+    if (it && it.action) it.action();
+  };
+}
+
+document.addEventListener('click', function(e) {
+  const m = $('#menu');
+  if (!m.classList.contains('show')) return;
+  if (e.target.closest('#menu')) return;
+  if (e.target.closest('[data-menu]')) return;
+  m.classList.remove('show');
+}, true);
+
+$('#btnImport').addEventListener('click', function(e) {
+  showMenu(e.currentTarget, [
+    { icon: 'upload', label: 'Import files…', action: function() { $('#fileInput').click(); } },
+    { icon: 'zip', label: 'Import ZIP archive…', action: function() { $('#zipInput').click(); } },
+    { icon: 'folderOpen', label: 'Import folder…', action: function() { $('#folderInput').click(); } },
+    { icon: 'clipboard', label: 'Import project JSON…', action: importJSONPrompt }
+  ]);
+});
+
+$('#btnExport').addEventListener('click', function(e) {
+  showMenu(e.currentTarget, [
+    { icon: 'zip', label: 'Export as ZIP', action: exportZip },
+    { icon: 'globe', label: 'Export as standalone HTML', action: exportStandaloneHTML },
+    { icon: 'box', label: 'Export project JSON', action: exportJSON },
+    { icon: 'save', label: 'Save current file', action: exportSingleFile }
+  ]);
+});
+
+function importJSONPrompt() {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json,application/json';
+  inp.onchange = function() {
+    const f = inp.files[0];
+    if (!f) return;
+    const fr = new FileReader();
+    fr.onload = function() {
+      try {
+        const obj = JSON.parse(fr.result);
+        if (!obj || !Array.isArray(obj.files)) throw new Error('Invalid project file');
+        for (let i = 0; i < obj.files.length; i++) {
+          const it = obj.files[i];
+          if (it.type === 'folder') ensureFolder(it.path);
+          else if (it.type === 'binary') {
+            const bin = atob(it.data);
+            const u8 = new Uint8Array(bin.length);
+            for (let j = 0; j < bin.length; j++) u8[j] = bin.charCodeAt(j);
+            ensureFolder(dirOf(it.path));
+            writeFile(it.path, u8, true);
+          } else {
+            ensureFolder(dirOf(it.path));
+            writeFile(it.path, it.data, false);
+          }
+        }
+        if (obj.entry) state.entry = obj.entry;
+        renderTree(); renderTabs(); populateEntrySelect(); persistSoon();
+        toast('Project imported', 'ok');
+      } catch(err) {
+        toast('Invalid project JSON', 'err');
+        addLog('error', 'JSON import failed: ' + err.message);
+      }
+    };
+    fr.readAsText(f);
+  };
+  inp.click();
+}
+
+/* =========================================================================
+   FILE OPERATIONS
+   ========================================================================= */
+function promptText(title, def) {
+  return window.prompt(title, def);
+}
+
+$('#btnNewFile').addEventListener('click', function() {
+  const name = promptText('New file name', 'untitled.js');
+  if (!name) return;
+  const dir = currentImportDir();
+  const full = dir ? dir + '/' + name : name;
+  const target = uniquePath(full);
+  writeFile(target, '', false);
+  renderTree(); populateEntrySelect();
+  openFile(target);
+  persistSoon();
+  addLog('sys', 'Created ' + target);
+});
+
+$('#btnNewFolder').addEventListener('click', function() {
+  const name = promptText('New folder name', 'folder');
+  if (!name) return;
+  const dir = currentImportDir();
+  const full = dir ? dir + '/' + name : name;
+  if (nodes.has(full)) { toast('Folder already exists', 'warn'); return; }
+  ensureFolder(full);
+  expanded.add(dir);
+  renderTree();
+  persistSoon();
+  addLog('sys', 'Created folder ' + full);
+});
+
+$('#btnRename').addEventListener('click', function() {
+  if (!selectedPath) { toast('Select a file first', 'warn'); return; }
+  const n = nodes.get(selectedPath);
+  if (!n) return;
+  const name = promptText('Rename to', n.name);
+  if (!name || name === n.name) return;
+  const dir = dirOf(selectedPath);
+  const newPath = dir ? dir + '/' + name : name;
+  if (nodes.has(newPath)) { toast('Name already in use', 'warn'); return; }
+
+  if (n.type === 'folder') {
+    const moves = [];
+    nodes.forEach(function(node, p) {
+      if (p === selectedPath || p.indexOf(selectedPath + '/') === 0) moves.push([p, newPath + p.slice(selectedPath.length)]);
+    });
+    for (let i = 0; i < moves.length; i++) {
+      const node2 = nodes.get(moves[i][0]);
+      nodes.delete(moves[i][0]);
+      node2.path = moves[i][1];
+      node2.name = baseOf(moves[i][1]);
+      nodes.set(moves[i][1], node2);
+    }
+    for (let i = 0; i < openTabs.length; i++) {
+      if (openTabs[i] === selectedPath || openTabs[i].indexOf(selectedPath + '/') === 0) {
+        openTabs[i] = newPath + openTabs[i].slice(selectedPath.length);
+      }
+    }
+  } else {
+    nodes.delete(selectedPath);
+    n.path = newPath; n.name = name;
+    nodes.set(newPath, n);
+    for (let i = 0; i < openTabs.length; i++) if (openTabs[i] === selectedPath) openTabs[i] = newPath;
+    if (activePath === selectedPath) { activePath = newPath; currentTextPath = newPath; }
+  }
+  selectedPath = newPath;
+  renderTree(); renderTabs(); populateEntrySelect();
+  if (activePath === newPath) setActive(newPath);
+  persistSoon();
+  toast('Renamed', 'ok');
+});
+
+$('#btnDelete').addEventListener('click', function() {
+  if (!selectedPath) { toast('Select a file first', 'warn'); return; }
+  const n = nodes.get(selectedPath);
+  if (!n) return;
+  if (!window.confirm('Delete "' + n.name + '"?' + (n.type === 'folder' ? ' This removes all contents.' : ''))) return;
+  const toDelete = [];
+  nodes.forEach(function(node, p) {
+    if (p === selectedPath || p.indexOf(selectedPath + '/') === 0) toDelete.push(p);
+  });
+  for (let i = 0; i < toDelete.length; i++) nodes.delete(toDelete[i]);
+  for (let i = openTabs.length - 1; i >= 0; i--) {
+    if (openTabs[i] === selectedPath || openTabs[i].indexOf(selectedPath + '/') === 0) openTabs.splice(i, 1);
+  }
+  if (activePath && (activePath === selectedPath || activePath.indexOf(selectedPath + '/') === 0)) {
+    activePath = null; currentTextPath = null;
+    if (openTabs.length) setActive(openTabs[openTabs.length - 1]); else clearEditor();
+  }
+  selectedPath = null;
+  renderTree(); renderTabs(); populateEntrySelect(); updateToolbarState();
+  persistSoon();
+  toast('Deleted', 'ok');
+});
+
+$('#btnDeleteAll').addEventListener('click', function() {
+  if (!nodes.size) { toast('Project is already empty'); return; }
+  if (!window.confirm('Delete ALL files and folders in the project?\nThis cannot be undone.')) return;
+  if (!window.confirm('Are you absolutely sure? This will clear every file.')) return;
+  nodes.clear();
+  openTabs.length = 0;
+  expanded.clear();
+  selectedPath = null;
+  activePath = null;
+  currentTextPath = null;
+  clearEditor();
+  hide3DViewer();
+  renderTree(); renderTabs(); populateEntrySelect(); updateToolbarState();
+  persistSoon();
+  addLog('warn', 'All project files deleted');
+  toast('Project cleared', 'ok');
+});
+
+$('#btnCollapseAll').addEventListener('click', function() {
+  expanded.clear();
+  renderTree();
+});
+
+/* =========================================================================
+   ENTRY SELECT
+   ========================================================================= */
+let entrySelect = null;
+
+function populateEntrySelect() {
+  const htmls = htmlFiles();
+  if (!entrySelect) {
+    entrySelect = document.createElement('select');
+    entrySelect.id = 'entrySelect';
+    entrySelect.className = 'input';
+    entrySelect.style.cssText = 'height:30px;border-radius:6px;background:var(--bg-input);color:var(--text);' +
+      'font-size:11px;padding:0 26px 0 8px;max-width:160px;flex:0 0 auto;font-family:var(--font-mono)';
+    entrySelect.title = 'Preview entry file';
+    entrySelect.addEventListener('change', function() {
+      state.entry = entrySelect.value;
+      persistSoon();
+      if (settings.previewMode !== 'off' && settings.previewMode !== 'popup') refreshInlinePreview();
+    });
+    const topbar = document.querySelector('.topbar');
+    topbar.insertBefore(entrySelect, $('#btnSettings'));
+  }
+  const cur = state.entry;
+  entrySelect.innerHTML = '';
+  const all = [];
+  nodes.forEach(function(n, p) { if (n.type === 'file') all.push(p); });
+  all.sort();
+  const sources = htmls.length ? htmls : all;
+  for (let i = 0; i < sources.length; i++) {
+    const o = document.createElement('option');
+    o.value = sources[i];
+    o.textContent = sources[i];
+    entrySelect.appendChild(o);
+  }
+  if (!sources.length) {
+    const o = document.createElement('option');
+    o.value = '';
+    o.textContent = 'no entry';
+    entrySelect.appendChild(o);
+    entrySelect.disabled = true;
+    return;
+  }
+  entrySelect.disabled = false;
+  if (sources.indexOf(cur) >= 0) entrySelect.value = cur;
+  else {
+    const pick = sources.indexOf('index.html') >= 0 ? 'index.html' : sources[0];
+    entrySelect.value = pick;
+    state.entry = pick;
+  }
+}
+
+/* =========================================================================
+   SETTINGS UI
+   ========================================================================= */
+$('#btnSettings').addEventListener('click', function() {
+  applySettings();
+  $('#settingsModal').classList.add('show');
+});
+$('#settingsClose').addEventListener('click', function() {
+  $('#settingsModal').classList.remove('show');
+});
+$('#settingsDone').addEventListener('click', function() {
+  $('#settingsModal').classList.remove('show');
+  toast('Settings saved', 'ok');
+});
+$('#settingsReset').addEventListener('click', function() {
+  Object.assign(settings, DEFAULTS);
+  applySettings();
+  toast('Settings reset to defaults');
+});
+$('#settingsModal').addEventListener('click', function(e) {
+  if (e.target === $('#settingsModal')) $('#settingsModal').classList.remove('show');
+});
+
+// Segmented controls
+function bindSegmented(selector, settingKey, valueType) {
+  $$(selector + ' button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      const raw = b.dataset.v;
+      settings[settingKey] = valueType === 'number' ? +raw : raw;
+      applySettings();
+      if (settingKey === 'previewMode') {
+        if (raw === 'side' || raw === 'bottom') refreshInlinePreview();
+      }
+      if (settingKey === 'modelBg' && viewer3dEl.classList.contains('show') && activePath) {
+        // Re-render 3D with new background
+        const n = nodes.get(activePath);
+        if (n) show3DViewer(n);
+      }
+    });
+  });
+}
+bindSegmented('#segTheme', 'theme', 'string');
+bindSegmented('#segPreview', 'previewMode', 'string');
+bindSegmented('#segFont', 'fontSize', 'number');
+bindSegmented('#segTabSize', 'tabSize', 'number');
+bindSegmented('#seg3dBg', 'modelBg', 'string');
+
+// Switches
+function bindSwitch(id, key) {
+  const el = $(id);
+  el.addEventListener('click', function() {
+    settings[key] = !settings[key];
+    applySettings();
+    if (key === 'autoRefresh' && settings.autoRefresh) refreshInlinePreview();
+    if (key === 'modelAutoRotate' && controls3d) controls3d.autoRotate = settings.modelAutoRotate;
+  });
+}
+bindSwitch('#swAuto', 'autoRefresh');
+bindSwitch('#swHighlight', 'highlight');
+bindSwitch('#swLineNums', 'lineNumbers');
+bindSwitch('#sw3dRotate', 'modelAutoRotate');
+
+/* =========================================================================
+   SEARCH & REPLACE
+   ========================================================================= */
+const searchState = {
+  caseSensitive: false,
+  wholeWord: false,
+  regex: false,
+  scope: 'file',
+  matches: []
+};
+
+$('#btnSearch').addEventListener('click', openSearch);
+$('#searchCloseTop').addEventListener('click', closeSearch);
+$('#searchModal').addEventListener('click', function(e) {
+  if (e.target === $('#searchModal')) closeSearch();
+});
+
+function openSearch() {
+  $('#searchModal').classList.add('show');
+  setTimeout(function() { $('#searchInput').focus(); }, 40);
+  if (activePath && !nodes.get(activePath).binary) {
+    const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd).trim();
+    if (sel && sel.length < 100 && sel.indexOf('\n') < 0) $('#searchInput').value = sel;
+  }
+  runSearch();
+}
+function closeSearch() { $('#searchModal').classList.remove('show'); }
+
+$('#optCase').addEventListener('click', function() {
+  searchState.caseSensitive = !searchState.caseSensitive;
+  this.classList.toggle('on', searchState.caseSensitive);
+  runSearch();
+});
+$('#optWord').addEventListener('click', function() {
+  searchState.wholeWord = !searchState.wholeWord;
+  this.classList.toggle('on', searchState.wholeWord);
+  runSearch();
+});
+$('#optRegex').addEventListener('click', function() {
+  searchState.regex = !searchState.regex;
+  this.classList.toggle('on', searchState.regex);
+  runSearch();
+});
+$('#optScope').addEventListener('click', function() {
+  searchState.scope = searchState.scope === 'file' ? 'project' : 'file';
+  this.textContent = 'In: ' + searchState.scope;
+  this.classList.toggle('on', searchState.scope === 'project');
+  runSearch();
+});
+
+let searchTimer = null;
+$('#searchInput').addEventListener('input', function() {
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(runSearch, 130);
+});
+$('#replaceInput').addEventListener('input', updateSearchActions);
+
+function buildSearchRegex(query) {
+  let source;
+  if (searchState.regex) source = query;
+  else source = escRe(query);
+  if (searchState.wholeWord) source = '\\b' + source + '\\b';
+  const flags = searchState.caseSensitive ? 'g' : 'gi';
+  return new RegExp(source, flags);
+}
+
+function findMatches(text, regex, max) {
+  const matches = [];
+  let m;
+  regex.lastIndex = 0;
+  while ((m = regex.exec(text)) !== null) {
+    if (m[0].length === 0) { regex.lastIndex++; continue; }
+    const before = text.slice(0, m.index);
+    const line = (before.match(/\n/g) || []).length + 1;
+    const lineStart = before.lastIndexOf('\n') + 1;
+    const col = m.index - lineStart + 1;
+    matches.push({ index: m.index, length: m[0].length, line, col, text: m[0] });
+    if (matches.length >= max) break;
+  }
+  return matches;
+}
+
+const MAX_MATCHES = 800;
+
+function runSearch() {
+  const q = $('#searchInput').value;
+  const results = $('#searchResults');
+  searchState.matches = [];
+  $('#searchStat').textContent = '';
+
+  if (!q) {
+    results.innerHTML = '<div class="sr-empty">Type a query to search…</div>';
+    updateSearchActions();
+    return;
+  }
+
+  let regex;
+  try { regex = buildSearchRegex(q); }
+  catch(e) {
+    results.innerHTML = '<div class="sr-empty">Invalid regular expression</div>';
+    updateSearchActions();
+    return;
+  }
+
+  const grouped = [];
+  let totalMatches = 0;
+
+  if (searchState.scope === 'file') {
+    if (!activePath || nodes.get(activePath).binary) {
+      results.innerHTML = '<div class="sr-empty">No text file is open</div>';
+      updateSearchActions();
+      return;
+    }
+    const n = nodes.get(activePath);
+    const text = ta.value;
+    const ms = findMatches(text, regex, MAX_MATCHES);
+    if (ms.length) { grouped.push({ path: activePath, name: n.name, matches: ms }); totalMatches = ms.length; }
+  } else {
+    const paths = [];
+    nodes.forEach(function(n, p) { if (n.type === 'file' && !n.binary) paths.push(p); });
+    paths.sort();
+    for (let i = 0; i < paths.length; i++) {
+      const p = paths[i];
+      const n = nodes.get(p);
+      const text = n.content || '';
+      const ms = findMatches(text, regex, MAX_MATCHES - totalMatches);
+      if (ms.length) { grouped.push({ path: p, name: n.name, matches: ms }); totalMatches += ms.length; }
+      if (totalMatches >= MAX_MATCHES) break;
+    }
+  }
+
+  searchState.matches = grouped;
+  $('#searchStat').textContent = totalMatches + ' match' + (totalMatches === 1 ? '' : 'es') +
+    ' in ' + grouped.length + ' file' + (grouped.length === 1 ? '' : 's');
+
+  if (!grouped.length) {
+    results.innerHTML = '<div class="sr-empty">No matches found</div>';
+    updateSearchActions();
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < grouped.length; i++) {
+    const g = grouped[i];
+    const fh = document.createElement('div');
+    fh.className = 'sr-file';
+    fh.innerHTML = ico(fileIcon(nodes.get(g.path)), 11) + '<span class="fname"></span>' +
+      '<span class="count">' + g.matches.length + '</span>';
+    fh.querySelector('.fname').textContent = g.path;
+    frag.appendChild(fh);
+
+    const shown = Math.min(g.matches.length, 50);
+    for (let j = 0; j < shown; j++) {
+      const mm = g.matches[j];
+      const row = document.createElement('div');
+      row.className = 'sr-match';
+      row.innerHTML = '<span class="ln">' + mm.line + '</span><span class="tx"></span>';
+      const n2 = nodes.get(g.path);
+      const text = searchState.scope === 'file' && g.path === activePath ? ta.value : (n2.content || '');
+      const lineStart = text.lastIndexOf('\n', mm.index) + 1;
+      const lineEnd = text.indexOf('\n', mm.index);
+      const lineText = text.slice(lineStart, lineEnd < 0 ? text.length : lineEnd);
+      const colInLine = mm.index - lineStart;
+      const before = lineText.slice(0, colInLine);
+      const mid = lineText.slice(colInLine, colInLine + mm.length);
+      const after = lineText.slice(colInLine + mm.length);
+      const tx = row.querySelector('.tx');
+      tx.innerHTML = esc(before) + '<mark>' + esc(mid) + '</mark>' + esc(after);
+      row.addEventListener('click', function() {
+        closeSearch();
+        if (!nodes.has(g.path)) return;
+        if (activePath !== g.path) openFile(g.path);
+        setTimeout(function() { jumpTo(mm.index, mm.length); }, 60);
+      });
+      frag.appendChild(row);
+    }
+    if (g.matches.length > shown) {
+      const more = document.createElement('div');
+      more.className = 'sr-file';
+      more.style.color = 'var(--text-faint)';
+      more.textContent = '+ ' + (g.matches.length - shown) + ' more matches…';
+      frag.appendChild(more);
+    }
+  }
+  results.innerHTML = '';
+  results.appendChild(frag);
+  updateSearchActions();
+}
+
+function jumpTo(index, length) {
+  if (!activePath) return;
+  ta.focus();
+  ta.setSelectionRange(index, index + length);
+  const before = ta.value.slice(0, index);
+  const line = (before.match(/\n/g) || []).length;
+  ta.scrollTop = Math.max(0, line * 20 - 100);
+  syncScroll();
+}
+
+function updateSearchActions() {
+  const has = searchState.matches.length > 0 && $('#searchInput').value.length > 0;
+  $('#btnReplaceOne').disabled = !has;
+  $('#btnReplaceAll').disabled = !has;
+}
+
+function doReplaceOne() {
+  if (!activePath || nodes.get(activePath).binary) return;
+  const q = $('#searchInput').value;
+  const r = $('#replaceInput').value;
+  if (!q) return;
+  let regex;
+  try { regex = buildSearchRegex(q); }
+  catch(e) { toast('Invalid regex', 'err'); return; }
+
+  const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd);
+  if (sel && regex.test(sel)) {
+    ta.setRangeText(r, ta.selectionStart, ta.selectionEnd, 'end');
+    ta.dispatchEvent(new Event('input'));
+    runSearch();
+    toast('Replaced 1 match', 'ok');
+    return;
+  }
+  if (searchState.matches.length && searchState.matches[0].path === activePath) {
+    const first = searchState.matches[0].matches[0];
+    if (first) {
+      ta.setRangeText(r, first.index, first.index + first.length, 'end');
+      ta.dispatchEvent(new Event('input'));
+      runSearch();
+      toast('Replaced 1 match', 'ok');
+      return;
+    }
+  }
+  toast('No match to replace', 'warn');
+}
+
+function doReplaceAll() {
+  const q = $('#searchInput').value;
+  const r = $('#replaceInput').value;
+  if (!q) return;
+  let regex;
+  try { regex = buildSearchRegex(q); }
+  catch(e) { toast('Invalid regex', 'err'); return; }
+
+  let total = 0;
+
+  if (searchState.scope === 'file') {
+    if (!activePath || nodes.get(activePath).binary) { toast('No text file open', 'warn'); return; }
+    const before = ta.value;
+    const after = before.replace(regex, r);
+    if (after === before) { toast('No matches to replace', 'warn'); return; }
+    const ms = findMatches(before, new RegExp(regex.source, regex.flags), MAX_MATCHES);
+    total = ms.length;
+    ta.value = after;
+    nodes.get(activePath).content = after;
+    ta.dispatchEvent(new Event('input'));
+  } else {
+    const paths = [];
+    nodes.forEach(function(n, p) { if (n.type === 'file' && !n.binary) paths.push(p); });
+    for (let i = 0; i < paths.length; i++) {
+      const p = paths[i];
+      const n = nodes.get(p);
+      const before = n.content || '';
+      const re2 = new RegExp(regex.source, regex.flags);
+      const ms = findMatches(before, re2, MAX_MATCHES);
+      if (!ms.length) continue;
+      const re3 = new RegExp(regex.source, regex.flags);
+      const after = before.replace(re3, r);
+      if (after === before) continue;
+      total += ms.length;
+      n.content = after;
+      if (activePath === p) {
+        ta.value = after;
+        computeLineCount();
+        updateGutter();
+        updateHighlight();
+      }
+    }
+  }
+
+  if (!total) { toast('No matches to replace', 'warn'); return; }
+  markDirty(true);
+  persistSoon();
+  runSearch();
+  toast('Replaced ' + total + ' match' + (total === 1 ? '' : 'es'), 'ok');
+}
+
+$('#btnReplaceOne').addEventListener('click', doReplaceOne);
+$('#btnReplaceAll').addEventListener('click', doReplaceAll);
+
+/* =========================================================================
+   PERSISTENCE (IndexedDB)
+   ========================================================================= */
+let dbPromise = null;
+function idbOpen() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise(function(res, rej) {
+    try {
+      const r = indexedDB.open('forge-studio', 3);
+      r.onupgradeneeded = function() {
+        const db = r.result;
+        if (!db.objectStoreNames.contains('kv')) db.createObjectStore('kv');
+      };
+      r.onsuccess = function() { res(r.result); };
+      r.onerror = function() { rej(r.error); };
+    } catch(e) { rej(e); }
+  });
+  return dbPromise;
+}
+async function idbSet(k, v) {
+  const db = await idbOpen();
+  return new Promise(function(res, rej) {
+    const t = db.transaction('kv', 'readwrite');
+    t.objectStore('kv').put(v, k);
+    t.oncomplete = function() { res(); };
+    t.onerror = function() { rej(t.error); };
+  });
+}
+async function idbGet(k) {
+  const db = await idbOpen();
+  return new Promise(function(res, rej) {
+    const t = db.transaction('kv', 'readonly');
+    const rq = t.objectStore('kv').get(k);
+    rq.onsuccess = function() { res(rq.result); };
+    rq.onerror = function() { rej(rq.error); };
+  });
+}
+
+let persistTimer = null;
+function persistSoon() {
+  if (persistTimer) clearTimeout(persistTimer);
+  persistTimer = setTimeout(persist, 1000);
+}
+
+async function persist() {
+  try {
+    const arr = [];
+    nodes.forEach(function(n, p) {
+      if (n.type === 'folder') arr.push({ p: p, t: 'd' });
+      else if (n.binary) arr.push({ p: p, t: 'b', d: n.data });
+      else arr.push({ p: p, t: 'f', c: n.content || '' });
+    });
+    await idbSet('project', {
+      entry: state.entry,
+      nodes: arr,
+      open: openTabs.slice(),
+      active: activePath,
+      saved: Date.now()
+    });
+    markDirty(false);
+  } catch(e) { /* storage full or blocked */ }
+}
+
+async function restore() {
+  try {
+    const data = await idbGet('project');
+    if (!data || !data.nodes) return false;
+    nodes.clear();
+    for (let i = 0; i < data.nodes.length; i++) {
+      const it = data.nodes[i];
+      if (it.t === 'd') nodes.set(it.p, { type: 'folder', name: baseOf(it.p), path: it.p });
+      else if (it.t === 'b') nodes.set(it.p, { type: 'file', name: baseOf(it.p), path: it.p, data: new Uint8Array(it.d), content: null, binary: true });
+      else nodes.set(it.p, { type: 'file', name: baseOf(it.p), path: it.p, content: it.c, data: null, binary: false });
+    }
+    if (data.entry) state.entry = data.entry;
+    if (Array.isArray(data.open)) {
+      for (let i = 0; i < data.open.length; i++) {
+        if (nodes.has(data.open[i])) openTabs.push(data.open[i]);
+      }
+    }
+    if (data.active && nodes.has(data.active)) activePath = data.active;
+    return nodes.size > 0;
+  } catch(e) {
+    return false;
+  }
+}
+
+/* =========================================================================
+   DEFAULT PROJECT
+   ========================================================================= */
+function seedProject() {
+  writeFile('index.html',
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forge App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="stage">
+    <h1>Hello from Forge</h1>
+    <p class="sub">Edit any file on the left — the preview updates live.</p>
+    <canvas id="scene" width="520" height="320"></canvas>
+    <button id="go">Pause</button>
+  </main>
+  <script src="main.js"><\/script>
+</body>
+</html>`, false);
+
+  writeFile('styles.css',
+`* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 0%, #1a2233, #050608 70%);
+  color: #e8ecef;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.stage {
+  text-align: center;
+  padding: 32px;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 0 0 22px;
+  color: #6c7076;
+  font-size: 13px;
+}
+
+canvas {
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: block;
+  max-width: 100%;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+button {
+  margin-top: 18px;
+  padding: 9px 20px;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg,#0d0d0d,#080808);
+  color: #e8ecef;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+button:hover {
+  background: linear-gradient(180deg,#151515,#0d0d0d);
+}`, false);
+
+  writeFile('main.js',
+`const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+
+const ball = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  r: 26,
+  vx: 3.2,
+  vy: 2.4,
+  hue: 215
+};
+
+let running = true;
+
+function frame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < canvas.width; x += 32) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < canvas.height; y += 32) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  if (running) {
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+    ball.hue = (ball.hue + 0.6) % 360;
+
+    if (ball.x - ball.r < 0 || ball.x + ball.r > canvas.width) ball.vx *= -1;
+    if (ball.y - ball.r < 0 || ball.y + ball.r > canvas.height) ball.vy *= -1;
+  }
+
+  const grad = ctx.createRadialGradient(
+    ball.x - ball.r * 0.3, ball.y - ball.r * 0.3, 2,
+    ball.x, ball.y, ball.r
+  );
+  grad.addColorStop(0, 'hsl(' + ball.hue + ' 90% 72%)');
+  grad.addColorStop(1, 'hsl(' + ball.hue + ' 70% 46%)');
+
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+  ctx.fillStyle = grad;
+  ctx.shadowColor = 'hsla(' + ball.hue + ' 90% 60% / 0.5)';
+  ctx.shadowBlur = 26;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
+  requestAnimationFrame(frame);
+}
+
+document.getElementById('go').addEventListener('click', () => {
+  running = !running;
+  console.log('Animation running:', running);
+});
+
+console.log('Scene ready — canvas', canvas.width + 'x' + canvas.height);
+frame();`, false);
+
+  ensureFolder('assets');
+  writeFile('assets/README.md',
+`# Assets
+
+Drop images, GIFs, audio, fonts, .glb / .gltf models or any other file here.
+
+Fonts are automatically installed when imported.
+
+Models open in the built-in 3D viewer.
+
+Reference assets with normal relative paths:
+
+    <img src="assets/logo.png">
+    <audio src="assets/theme.mp3"></audio>
+    loader.load('assets/model.glb')`, false);
+}
+
+/* =========================================================================
+   DRAG & DROP
+   ========================================================================= */
+['dragover', 'drop'].forEach(function(ev) {
+  document.addEventListener(ev, function(e) { e.preventDefault(); }, false);
+});
+
+document.addEventListener('drop', async function(e) {
+  const files = Array.from((e.dataTransfer && e.dataTransfer.files) || []);
+  if (!files.length) return;
+  const zips = files.filter(function(f) { return /\.zip$/i.test(f.name); });
+  const rest = files.filter(function(f) { return !/\.zip$/i.test(f.name); });
+  try {
+    let total = 0;
+    for (let i = 0; i < zips.length; i++) total += await handleZipFile(zips[i]);
+    if (rest.length) total += await handleFileList(rest, currentImportDir());
+    renderTree(); populateEntrySelect(); persistSoon();
+    if (total) toast('Imported ' + total + ' file(s)', 'ok');
+  } catch(err) {
+    addLog('error', 'Drop import failed: ' + err.message);
+    toast('Import failed', 'err');
+  }
+});
+
+/* =========================================================================
+   KEYBOARD SHORTCUTS
+   ========================================================================= */
+document.addEventListener('keydown', function(e) {
+  const mod = e.metaKey || e.ctrlKey;
+  if (!mod) return;
+  const k = e.key.toLowerCase();
+  if (k === 's') {
+    e.preventDefault();
+    persist();
+    toast('Project saved', 'ok');
+  } else if (k === 'enter') {
+    e.preventDefault();
+    refreshInlinePreview();
+  } else if (k === 'f' && e.shiftKey) {
+    e.preventDefault();
+    runFormat();
+  } else if (k === 'f') {
+    e.preventDefault();
+    openSearch();
+  } else if (k === 'a' && document.activeElement !== ta) {
+    const sel = window.getSelection();
+    if (sel) sel.selectAllChildren(document.body);
+  } else if (k === 'w' && e.shiftKey) {
+    e.preventDefault();
+    settings.wordWrap = !settings.wordWrap;
+    applySettings();
+  }
+});
+
+/* =========================================================================
+   GLOBAL ERROR CAPTURE
+   ========================================================================= */
+window.addEventListener('error', function(e) {
+  if (e.filename && e.filename.indexOf('blob:') === 0) return;
+  addLog('error', 'IDE error: ' + e.message, {
+    stack: (e.error && e.error.stack) || '',
+    source: e.filename, line: e.lineno, col: e.colno
+  });
+});
+window.addEventListener('unhandledrejection', function(e) {
+  const r = e.reason;
+  addLog('error', 'IDE promise rejection: ' + ((r && r.message) || String(r)), { stack: (r && r.stack) || '' });
+});
+
+/* =========================================================================
+   BOOT
+   ========================================================================= */
+(async function boot() {
+  addLog('sys', 'Forge Studio ready');
+  applySettings();
+
+  const restored = await restore();
+  if (!restored) {
+    seedProject();
+    state.entry = 'index.html';
+  }
+  renderTree();
+  populateEntrySelect();
+  updateToolbarState();
+
+  const start = (activePath && nodes.has(activePath)) ? activePath :
+                (nodes.has('index.html') ? 'index.html' : null);
+  if (start) openFile(start); else clearEditor();
+  renderTabs();
+
+  addLog('sys', nodes.size + ' node(s) in project');
+
+  if (settings.previewMode === 'side' || settings.previewMode === 'bottom') {
+    setTimeout(refreshInlinePreview, 100);
+  }
+  persistSoon();
+})();
+</script>
+
+<!-- ===== THREE.JS (for 3D viewer) ===== -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+</body>
+</html>
