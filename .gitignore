@@ -1,0 +1,25 @@
+# Operating system noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+*.log
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Local tooling
+.cache/
+.vly-run/

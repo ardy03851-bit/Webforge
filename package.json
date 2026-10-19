@@ -1,0 +1,24 @@
+{
+  "name": "webforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Forge Studio — a dependency-free, browser-based web IDE with live preview and a 3D model viewer.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs"
+  },
+  "keywords": [
+    "ide",
+    "code-editor",
+    "live-preview",
+    "browser",
+    "vanilla-javascript",
+    "threejs"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ardy03851-bit/Webforge.git"
+  }
+}

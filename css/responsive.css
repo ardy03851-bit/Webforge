@@ -1,0 +1,34 @@
+/* responsive.css — small screens and reduced motion */
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  .tb-label{display:none}
+  .btn{padding:0 9px}
+}
+@media (max-width:900px){
+  .entry-select{display:none}
+  .brand-text{display:none}
+  .brand{padding-right:6px;margin-right:0}
+  .sidebar{width:190px;flex-basis:190px}
+  .gutter{flex-basis:42px;width:42px}
+  .console{height:148px}
+  .set-layout{flex-direction:column;min-height:0}
+  .set-nav{width:100%;flex:0 0 auto;display:flex;gap:3px;border-right:0;border-bottom:1px solid var(--border);overflow-x:auto}
+  .set-nav button{width:auto;white-space:nowrap;margin:0}
+}
+@media (max-width:620px){
+  .sidebar{width:156px;flex-basis:156px}
+  .path{max-width:120px}
+  .editor-area.p-side{flex-direction:column}
+  .editor-area.p-side .preview-pane{flex:0 0 36%;border-left:0;border-top:1px solid var(--border)}
+  .btn.primary .tb-label{display:none}
+  .topbar{gap:2px}
+  .divider{margin:0 2px}
+  .modal{padding:calc(20px + env(safe-area-inset-top)) 8px 8px}
+  .modal-card{max-height:calc(100vh - 34px);border-radius:16px}
+  .cmdk{padding:calc(50px + env(safe-area-inset-top)) 10px 12px}
+  .cmdk-card{max-height:calc(100vh - 100px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
